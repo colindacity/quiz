@@ -1229,7 +1229,7 @@ function generatePDF(data) {
     (data.archetypeStrengths && data.archetypeStrengths[data.primaryArchetype] ? 
       data.archetypeStrengths[data.primaryArchetype] : 
       'leveraging your unique strengths') +
-    `. 
+    `.` 
 
  
 
