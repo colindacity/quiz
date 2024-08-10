@@ -1253,6 +1253,7 @@ function createCustomVisualization(scores) {
 
   container.appendChild(svg);
 }
+
   
 function shareResults(platform) {
   const [primaryArchetype] = getTopTwo(calculateScores().archetypes);
