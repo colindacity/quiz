@@ -1117,29 +1117,7 @@ function shareResults(platform) {
   window.open(shareUrl, '_blank', 'noopener,noreferrer');
 }
 
-function addRetakeButton() {
-  // Remove any existing retake buttons first
-  const existingRetakeButtons = document.querySelectorAll('#retake-btn');
-  existingRetakeButtons.forEach(button => button.remove());
 
-  const retakeButton = document.createElement('button');
-  retakeButton.textContent = 'Retake Quiz';
-  retakeButton.id = 'retake-btn';
-  retakeButton.classList.add('secondary-button');
-  retakeButton.style.marginTop = '20px';
-  retakeButton.style.display = 'block';
-  retakeButton.style.margin = '20px auto';
-  retakeButton.addEventListener('click', () => {
-    currentQuestionIndex = 0;
-    userResponses = [];
-    showQuestion(currentQuestionIndex);
-    resultsContainer.style.display = 'none';
-    quizContainer.style.display = 'block';
-    questionTitle.style.display = 'block';
-  });
-  
-  resultsContainer.appendChild(retakeButton);
-}
 
 showQuestion(currentQuestionIndex);
 
