@@ -1067,9 +1067,17 @@ function createCustomVisualization(scores) {
     '#29cef9', '#31f60a', '#f23dff', '#001a49', '#4a90e2', '#50e3c2', '#b8e986'
   ];
   
+  const padding = 40; // Padding around the edges
   const centerX = 200;
   const centerY = 200;
-  const maxRadius = 150;
+  const maxRadius = Math.min(centerX, centerY) - padding - 30; // Additional space for text
+
+  // Create a background rectangle for the entire SVG
+  const background = document.createElementNS("http://www.w3.org/2000/svg", "rect");
+  background.setAttribute("width", "100%");
+  background.setAttribute("height", "100%");
+  background.setAttribute("fill", "#f0f0f0"); // Light grey background
+  svg.appendChild(background);
 
   archetypes.forEach((archetype, index) => {
     const score = scores.archetypes[archetype];
@@ -1086,9 +1094,9 @@ function createCustomVisualization(scores) {
     
     const text = document.createElementNS("http://www.w3.org/2000/svg", "text");
     text.setAttribute("x", x);
-    text.setAttribute("y", y + radius + 20); // Position text below the circle
+    text.setAttribute("y", y + Math.max(15, radius / 3) + 15); // Position text below the circle
     text.setAttribute("text-anchor", "middle");
-    text.setAttribute("font-size", "14");
+    text.setAttribute("font-size", "12");
     text.setAttribute("fill", "#333");
     text.textContent = archetype;
     
@@ -1098,6 +1106,7 @@ function createCustomVisualization(scores) {
   
   container.appendChild(svg);
 }
+  
 function shareResults(platform) {
   const [primaryArchetype] = getTopTwo(calculateScores().archetypes);
   const text = `I just discovered my Product Leadership Archetype: I'm a ${primaryArchetype}. ${archetypeDescriptions[primaryArchetype].description.split('.')[0]}`;
