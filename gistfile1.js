@@ -1243,14 +1243,20 @@ function generatePDF(data) {
     data.companyRecommendations[data.primaryArchetype].forEach(company => {
       yPosition = addWrappedText(`• ${company}`, margin + 5, yPosition + 5, pageWidth - 2 * margin - 5, 5);
     });
+  } else {
+    yPosition = addWrappedText('Company recommendations not available for this archetype.', margin + 5, yPosition + 5, pageWidth - 2 * margin - 5, 5);
   }
   yPosition += 10;
 
   // How to Present Yourself
   addSection('How to Present Yourself', 'When introducing yourself or writing your resume, emphasize your unique combination of strengths. For example:');
-  yPosition = addWrappedText(`• "${data.archetypeStrengths[data.primaryArchetype]}"`, margin + 5, yPosition, pageWidth - 2 * margin - 5, 5);
-  yPosition = addWrappedText(`• "${data.archetypeAchievements[data.primaryArchetype]}"`, margin + 5, yPosition + 5, pageWidth - 2 * margin - 5, 5);
-
+  if (data.archetypeStrengths && data.archetypeStrengths[data.primaryArchetype]) {
+    yPosition = addWrappedText(`• "${data.archetypeStrengths[data.primaryArchetype]}"`, margin + 5, yPosition, pageWidth - 2 * margin - 5, 5);
+  }
+  if (data.archetypeAchievements && data.archetypeAchievements[data.primaryArchetype]) {
+    yPosition = addWrappedText(`• "${data.archetypeAchievements[data.primaryArchetype]}"`, margin + 5, yPosition + 5, pageWidth - 2 * margin - 5, 5);
+  }
+  
   // Add data visualization
   const dataVisualization = document.getElementById('data-visualization');
   if (dataVisualization) {
