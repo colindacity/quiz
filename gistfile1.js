@@ -830,6 +830,24 @@ function showResults() {
       "Team Expertise": "Build and mentor high-performing product teams that consistently exceed performance benchmarks"
     };
 
+    quizResultData = {
+      primaryArchetype,
+      secondaryArchetype,
+      primarySuperpower,
+      secondarySuperpower,
+      productCulture,
+      pmCulture,
+      archetypeDescriptions,
+      superpowerDescriptions,
+      productCultureDescriptions,
+      pmCultureDescriptions,
+      archetypeStrengths,
+      archetypeAchievements,
+      superpowerActions,
+      companyRecommendations,
+      scores
+    };
+
     let summaryHTML = `
       <div class="result-section">
         <h3>Your Product Leadership Profile</h3>
@@ -958,22 +976,6 @@ function showResults() {
       </div>
     `;
 
-    resultData = {
-      primaryArchetype,
-      secondaryArchetype,
-      primarySuperpower,
-      secondarySuperpower,
-      productCulture,
-      pmCulture,
-      archetypeDescriptions,
-      superpowerDescriptions,
-      productCultureDescriptions,
-      pmCultureDescriptions,
-      archetypeStrengths,
-      archetypeAchievements,
-      superpowerActions
-    };
-
     profileSummary.innerHTML = summaryHTML;
 
     // Create data visualization
@@ -995,20 +997,22 @@ function showResults() {
 
     // Set up download button event listeners
     document.getElementById('download-pdf').onclick = function() {
-      console.log('PDF button clicked, resultData:', resultData);
-      if (resultData) {
-        generatePDF(resultData);
+      console.log('PDF button clicked, quizResultData:', quizResultData);
+      if (quizResultData) {
+        generatePDF(quizResultData);
       } else {
         console.error('Result data not available for PDF generation');
+        alert('Result data is not available. Please retake the quiz.');
       }
     };
 
     document.getElementById('download-png').onclick = function() {
-      console.log('PNG button clicked, resultData:', resultData);
-      if (resultData) {
-        generatePNG(resultData);
+      console.log('PNG button clicked, quizResultData:', quizResultData);
+      if (quizResultData) {
+        generatePNG(quizResultData);
       } else {
         console.error('Result data not available for PNG generation');
+        alert('Result data is not available. Please retake the quiz.');
       }
     };
 
@@ -1110,6 +1114,12 @@ function createCustomVisualization(scores) {
 }
 
 function generatePDF(data) {
+  if (!data || !data.primaryArchetype) {
+    console.error('Invalid data for PDF generation', data);
+    alert('Unable to generate PDF due to missing data. Please retake the quiz.');
+    return;
+  }
+
   const { jsPDF } = window.jspdf;
   const doc = new jsPDF();
   const pageWidth = doc.internal.pageSize.getWidth();
@@ -1164,43 +1174,45 @@ function generatePDF(data) {
   yPosition += 10;
 
   // Summary
-  const summary = `Your results indicate that you are primarily a ${data.primaryArchetype}-style product leader${data.secondaryArchetype ? ` with elements of a ${data.secondaryArchetype}` : ''}. This combination suggests that you excel in ${data.archetypeDescriptions[data.primaryArchetype].pros[0]} and ${data.archetypeDescriptions[data.primaryArchetype].pros[1]}${data.secondaryArchetype ? `, while also demonstrating strengths in ${data.archetypeDescriptions[data.secondaryArchetype].pros[0]}` : ''}. You have thrived in ${data.productCulture} organizations with a ${data.pmCulture} approach to product management.`;
+  const summary = `Your results indicate that you are primarily a ${data.primaryArchetype}-style product leader${data.secondaryArchetype ? ` with elements of a ${data.secondaryArchetype}` : ''}. ${data.archetypeDescriptions && data.archetypeDescriptions[data.primaryArchetype] ? `This combination suggests that you excel in ${data.archetypeDescriptions[data.primaryArchetype].pros[0] || 'various areas'} and ${data.archetypeDescriptions[data.primaryArchetype].pros[1] || 'other skills'}` : ''}${data.secondaryArchetype && data.archetypeDescriptions && data.archetypeDescriptions[data.secondaryArchetype] ? `, while also demonstrating strengths in ${data.archetypeDescriptions[data.secondaryArchetype].pros[0] || 'additional areas'}` : ''}. You have thrived in ${data.productCulture || 'various'} organizations with a ${data.pmCulture || 'specific'} approach to product management.`;
   yPosition = addWrappedText(summary, margin, yPosition, pageWidth - 2 * margin, 5);
   yPosition += 10;
 
   // Primary Archetype
-  addSection(`Primary Archetype: ${data.primaryArchetype}`, data.archetypeDescriptions[data.primaryArchetype].description);
+  if (data.archetypeDescriptions && data.archetypeDescriptions[data.primaryArchetype]) {
+    addSection(`Primary Archetype: ${data.primaryArchetype}`, data.archetypeDescriptions[data.primaryArchetype].description);
 
-  // Strengths
-  yPosition = addWrappedText('Strengths:', margin, yPosition, pageWidth - 2 * margin, 5, {
-    fontSize: 14,
-    fontStyle: 'bold'
-  });
-  data.archetypeDescriptions[data.primaryArchetype].pros.forEach(pro => {
-    yPosition = addWrappedText(`• ${pro}`, margin + 5, yPosition + 5, pageWidth - 2 * margin - 5, 5);
-  });
+    // Strengths
+    yPosition = addWrappedText('Strengths:', margin, yPosition, pageWidth - 2 * margin, 5, {
+      fontSize: 14,
+      fontStyle: 'bold'
+    });
+    data.archetypeDescriptions[data.primaryArchetype].pros.forEach(pro => {
+      yPosition = addWrappedText(`• ${pro}`, margin + 5, yPosition + 5, pageWidth - 2 * margin - 5, 5);
+    });
 
-  // Potential Challenges
-  yPosition += 5;
-  yPosition = addWrappedText('Potential Challenges:', margin, yPosition, pageWidth - 2 * margin, 5, {
-    fontSize: 14,
-    fontStyle: 'bold'
-  });
-  data.archetypeDescriptions[data.primaryArchetype].cons.forEach(con => {
-    yPosition = addWrappedText(`• ${con}`, margin + 5, yPosition + 5, pageWidth - 2 * margin - 5, 5);
-  });
+    // Potential Challenges
+    yPosition += 5;
+    yPosition = addWrappedText('Potential Challenges:', margin, yPosition, pageWidth - 2 * margin, 5, {
+      fontSize: 14,
+      fontStyle: 'bold'
+    });
+    data.archetypeDescriptions[data.primaryArchetype].cons.forEach(con => {
+      yPosition = addWrappedText(`• ${con}`, margin + 5, yPosition + 5, pageWidth - 2 * margin - 5, 5);
+    });
 
-  // Examples
-  yPosition += 5;
-  yPosition = addWrappedText('Examples:', margin, yPosition, pageWidth - 2 * margin, 5, {
-    fontSize: 14,
-    fontStyle: 'bold'
-  });
-  yPosition = addWrappedText(data.archetypeDescriptions[data.primaryArchetype].examples.join(', '), margin, yPosition + 5, pageWidth - 2 * margin, 5);
-  yPosition += 10;
+    // Examples
+    yPosition += 5;
+    yPosition = addWrappedText('Examples:', margin, yPosition, pageWidth - 2 * margin, 5, {
+      fontSize: 14,
+      fontStyle: 'bold'
+    });
+    yPosition = addWrappedText(data.archetypeDescriptions[data.primaryArchetype].examples.join(', '), margin, yPosition + 5, pageWidth - 2 * margin, 5);
+    yPosition += 10;
+  }
 
   // Secondary Archetype (if exists)
-  if (data.secondaryArchetype) {
+  if (data.secondaryArchetype && data.archetypeDescriptions && data.archetypeDescriptions[data.secondaryArchetype]) {
     addSection(`Secondary Archetype: ${data.secondaryArchetype}`, data.archetypeDescriptions[data.secondaryArchetype].description);
 
     yPosition = addWrappedText('Strengths:', margin, yPosition, pageWidth - 2 * margin, 5, {
@@ -1230,21 +1242,23 @@ function generatePDF(data) {
   }
 
   // Preferred Environment
-  addSection('Preferred Environment', `Product Culture (${data.productCulture}): ${data.productCultureDescriptions[data.productCulture]}`);
+  if (data.productCultureDescriptions && data.productCultureDescriptions[data.productCulture]) {
+    addSection('Preferred Environment', `Product Culture (${data.productCulture}): ${data.productCultureDescriptions[data.productCulture]}`);
+  }
 
-  addSection('Product Decision-Making', `${data.pmCulture}: ${data.pmCultureDescriptions[data.pmCulture]}`);
+  if (data.pmCultureDescriptions && data.pmCultureDescriptions[data.pmCulture]) {
+    addSection('Product Decision-Making', `${data.pmCulture}: ${data.pmCultureDescriptions[data.pmCulture]}`);
+  }
 
   // Career Opportunities
-  const careerOpportunities = `Given your ${data.primaryArchetype || 'primary'} archetype${data.primarySuperpower ? ` and ${data.primarySuperpower} superpower` : ''}, you might excel in roles that focus on ${(data.archetypeStrengths && data.archetypeStrengths[data.primaryArchetype]) || 'your strengths'}. Consider exploring opportunities in companies that value these skills and align with your preferred work environment.`;
+  const careerOpportunities = `Given your ${data.primaryArchetype} archetype${data.primarySuperpower ? ` and ${data.primarySuperpower} superpower` : ''}, you might excel in roles that focus on ${data.archetypeStrengths && data.archetypeStrengths[data.primaryArchetype] ? data.archetypeStrengths[data.primaryArchetype] : 'your strengths'}. Consider exploring opportunities in companies that value these skills and align with your preferred work environment.`;
   addSection('Career Opportunities', careerOpportunities);
 
-  yPosition = addWrappedText('Some companies that might be a good fit include:', margin, yPosition, pageWidth - 2 * margin, 5);
   if (data.companyRecommendations && data.companyRecommendations[data.primaryArchetype]) {
+    yPosition = addWrappedText('Some companies that might be a good fit include:', margin, yPosition, pageWidth - 2 * margin, 5);
     data.companyRecommendations[data.primaryArchetype].forEach(company => {
       yPosition = addWrappedText(`• ${company}`, margin + 5, yPosition + 5, pageWidth - 2 * margin - 5, 5);
     });
-  } else {
-    yPosition = addWrappedText('Company recommendations not available for this archetype.', margin + 5, yPosition + 5, pageWidth - 2 * margin - 5, 5);
   }
   yPosition += 10;
 
@@ -1256,7 +1270,7 @@ function generatePDF(data) {
   if (data.archetypeAchievements && data.archetypeAchievements[data.primaryArchetype]) {
     yPosition = addWrappedText(`• "${data.archetypeAchievements[data.primaryArchetype]}"`, margin + 5, yPosition + 5, pageWidth - 2 * margin - 5, 5);
   }
-  
+
   // Add data visualization
   const dataVisualization = document.getElementById('data-visualization');
   if (dataVisualization) {
@@ -1282,7 +1296,7 @@ function generatePNG(data) {
   const canvas = document.createElement('canvas');
   const ctx = canvas.getContext('2d');
   const width = 1080;
-  let height = 1920;
+  let height = 2700;
   canvas.width = width;
   canvas.height = height;
 
