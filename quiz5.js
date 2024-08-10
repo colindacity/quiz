@@ -455,7 +455,7 @@ const quizData = [
     type: "single"
   },
   {
-    question: "When faced with a product challenge, which TWO do you typically prioritize? (Select 2)",
+    question: "When faced with a product challenge, which TWO of these do you typically prioritize? (Select 2)",
     options: [
       {
         text: "Dive into data and analytics to find insights",
@@ -518,8 +518,7 @@ const quizData = [
         scores: {
           "New Market-Fit Expander": 2,
           "Growth Driver": 1,
-          "Product Crafting": 1,
-          "Zero-to-One Innovator": 1
+          "Product Crafting": 1
         }
       }
     ],
@@ -643,7 +642,8 @@ const quizData = [
         scores: {
           "New Market-Fit Expander": 2,
           "Growth Driver": 1,
-          "Product Crafting": 1
+          "Product Crafting": 1,
+          "Zero-to-One Innovator": 1
         }
       }
     ],
