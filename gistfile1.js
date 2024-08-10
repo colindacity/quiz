@@ -793,15 +793,15 @@ function showResults() {
     const productCulture = getHighestScore(scores.productCultures);
     const pmCulture = getHighestScore(scores.pmCultures);
 
-  const companyRecommendations = {
-    "Growth Driver": ["Uber", "Airbnb", "Pinterest"],
-    "UX Innovator": ["Apple", "Figma", "Slack"],
-    "Internal Scaler": ["Amazon", "Google", "Microsoft"],
-    "General Manager": ["Salesforce", "Oracle", "Adobe"],
-    "Product Optimizer": ["Booking.com", "Netflix", "Spotify"],
-    "Technician": ["Tesla", "SpaceX", "NVIDIA"],
-    "Zero-to-One Innovator": ["Stripe", "Palantir", "Snowflake"]
-  };
+    const companyRecommendations = {
+      "Growth Driver": ["Uber", "Airbnb", "Pinterest"],
+      "UX Innovator": ["Apple", "Figma", "Slack"],
+      "Internal Scaler": ["Amazon", "Google", "Microsoft"],
+      "General Manager": ["Salesforce", "Oracle", "Adobe"],
+      "Product Optimizer": ["Booking.com", "Netflix", "Spotify"],
+      "Technician": ["Tesla", "SpaceX", "NVIDIA"],
+      "Zero-to-One Innovator": ["Stripe", "Palantir", "Snowflake"]
+    };
 
     const archetypeStrengths = {
       "Growth Driver": "I've been a product leader for 10 years, primarily working in high-growth startups where I drove user acquisition and revenue through data-driven strategies and growth hacking techniques.",
@@ -996,17 +996,15 @@ function showResults() {
     addRetakeButton();
 
     // Set up download button event listeners
-document.getElementById('download-pdf').onclick = function() {
-  console.log('PDF button clicked, quizResultData:', quizResultData);
-  console.log('Primary Archetype:', quizResultData.primaryArchetype);
-  console.log('Company Recommendations:', quizResultData.companyRecommendations);
-  if (quizResultData) {
-    generatePDF(quizResultData);
-  } else {
-    console.error('Result data not available for PDF generation');
-    alert('Result data is not available. Please retake the quiz.');
-  }
-};
+    document.getElementById('download-pdf').onclick = function() {
+      console.log('PDF button clicked, quizResultData:', quizResultData);
+      if (quizResultData) {
+        generatePDF(quizResultData);
+      } else {
+        console.error('Result data not available for PDF generation');
+        alert('Result data is not available. Please retake the quiz.');
+      }
+    };
 
     document.getElementById('download-png').onclick = function() {
       console.log('PNG button clicked, quizResultData:', quizResultData);
@@ -1119,18 +1117,12 @@ function generatePDF(data) {
   console.log('Generating PDF with data:', data);
 
   const { jsPDF } = window.jspdf;
-  if (!jsPDF) {
-    console.error('jsPDF library not loaded');
-    alert('Unable to generate PDF. Please try again later.');
-    return;
-  }
-
   const doc = new jsPDF();
   const pageWidth = doc.internal.pageSize.getWidth();
   const pageHeight = doc.internal.pageSize.getHeight();
   const margin = 15;
   let yPosition = 20;
-  
+
   const colors = {
     primary: '#1E3A8A',
     secondary: '#3B82F6',
@@ -1222,9 +1214,23 @@ function generatePDF(data) {
     addSection('Product Decision-Making', `${data.pmCulture}: ${data.pmCultureDescriptions[data.pmCulture]}`);
   }
 
+  // Career Opportunities
+  const careerOpportunities = `Given your ${data.primaryArchetype} archetype` +
+    (data.primarySuperpower ? ` and ${data.primarySuperpower} superpower` : '') +
+    `, you might excel in roles that focus on ` +
+    (data.archetypeStrengths && data.archetypeStrengths[data.primaryArchetype] ? 
+      data.archetypeStrengths[data.primaryArchetype] : 
+      'leveraging your unique strengths') +
+    `. Consider exploring opportunities in companies that value these skills and align with your preferred work environment.`;
+  addSection('Career Opportunities', careerOpportunities);
 
-
- 
+  if (data.companyRecommendations && data.companyRecommendations[data.primaryArchetype]) {
+    yPosition = addWrappedText('Some companies that might be a good fit include:', margin, yPosition, pageWidth - 2 * margin, 5);
+    data.companyRecommendations[data.primaryArchetype].forEach(company => {
+      yPosition = addWrappedText(`• ${company}`, margin + 5, yPosition + 5, pageWidth - 2 * margin - 5, 5);
+    });
+  }
+  yPosition += 10;
 
   // How to Present Yourself
   addSection('How to Present Yourself', 'When introducing yourself or writing your resume, emphasize your unique combination of strengths. For example:');
