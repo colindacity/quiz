@@ -1057,7 +1057,7 @@ function createCustomVisualization(scores) {
   const container = document.getElementById('data-visualization');
   container.innerHTML = '';
   const svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
-  svg.setAttribute("viewBox", "0 0 400 400");
+  svg.setAttribute("viewBox", "0 0 100 100");
   svg.setAttribute("width", "100%");
   svg.setAttribute("height", "400");
   
@@ -1094,7 +1094,7 @@ function createCustomVisualization(scores) {
     
     const text = document.createElementNS("http://www.w3.org/2000/svg", "text");
     text.setAttribute("x", x);
-    text.setAttribute("y", y + Math.max(15, radius / 3) + 15); // Position text below the circle
+    text.setAttribute("y", y + Math.max(15, radius / 3) + 0); // Position text below the circle
     text.setAttribute("text-anchor", "middle");
     text.setAttribute("font-size", "12");
     text.setAttribute("fill", "#333");
