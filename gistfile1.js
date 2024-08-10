@@ -1222,14 +1222,7 @@ function generatePDF(data) {
     addSection('Product Decision-Making', `${data.pmCulture}: ${data.pmCultureDescriptions[data.pmCulture]}`);
   }
 
-  // Career Opportunities
-  const careerOpportunities = `Given your ${data.primaryArchetype} archetype` +
-    (data.primarySuperpower ? ` and ${data.primarySuperpower} superpower` : '') +
-    `, you might excel in roles that focus on ` +
-    (data.archetypeStrengths && data.archetypeStrengths[data.primaryArchetype] ? 
-      data.archetypeStrengths[data.primaryArchetype] : 
-      'leveraging your unique strengths') +
-    `.` 
+
 
  
 
