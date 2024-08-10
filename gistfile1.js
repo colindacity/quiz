@@ -1114,13 +1114,7 @@ function createCustomVisualization(scores) {
 }
 
 function generatePDF(data) {
-  console.log('Generating PDF with data:', data); // Debug log
-
-  if (!data || typeof data !== 'object') {
-    console.error('Invalid data for PDF generation', data);
-    alert('Unable to generate PDF due to missing data. Please retake the quiz.');
-    return;
-  }
+  console.log('Generating PDF with data:', data);
 
   const { jsPDF } = window.jspdf;
   const doc = new jsPDF();
@@ -1176,22 +1170,22 @@ function generatePDF(data) {
   yPosition += 10;
 
   // Summary
-  const primaryArchetype = data.primaryArchetype || 'Unknown';
-  const secondaryArchetype = data.secondaryArchetype || 'Unknown';
-  const summary = `Your results indicate that you are primarily a ${primaryArchetype}-style product leader${secondaryArchetype !== 'Unknown' ? ` with elements of a ${secondaryArchetype}` : ''}. ${data.archetypeDescriptions && data.archetypeDescriptions[primaryArchetype] ? `This combination suggests that you excel in ${data.archetypeDescriptions[primaryArchetype].pros[0] || 'various areas'} and ${data.archetypeDescriptions[primaryArchetype].pros[1] || 'other skills'}` : ''}${secondaryArchetype !== 'Unknown' && data.archetypeDescriptions && data.archetypeDescriptions[secondaryArchetype] ? `, while also demonstrating strengths in ${data.archetypeDescriptions[secondaryArchetype].pros[0] || 'additional areas'}` : ''}. You have thrived in ${data.productCulture || 'various'} organizations with a ${data.pmCulture || 'specific'} approach to product management.`;
+  const summary = `Your results indicate that you are primarily a ${data.primaryArchetype || 'Unknown'}-style product leader` +
+    (data.secondaryArchetype ? ` with elements of a ${data.secondaryArchetype}` : '') +
+    `. You have thrived in ${data.productCulture || 'various'} organizations with a ${data.pmCulture || 'specific'} approach to product management.`;
   yPosition = addWrappedText(summary, margin, yPosition, pageWidth - 2 * margin, 5);
   yPosition += 10;
 
   // Primary Archetype
-  if (data.archetypeDescriptions && data.archetypeDescriptions[primaryArchetype]) {
-    addSection(`Primary Archetype: ${primaryArchetype}`, data.archetypeDescriptions[primaryArchetype].description || 'Description not available');
+  if (data.archetypeDescriptions && data.archetypeDescriptions[data.primaryArchetype]) {
+    addSection(`Primary Archetype: ${data.primaryArchetype}`, data.archetypeDescriptions[data.primaryArchetype].description);
 
     // Strengths
     yPosition = addWrappedText('Strengths:', margin, yPosition, pageWidth - 2 * margin, 5, {
       fontSize: 14,
       fontStyle: 'bold'
     });
-    (data.archetypeDescriptions[primaryArchetype].pros || []).forEach(pro => {
+    data.archetypeDescriptions[data.primaryArchetype].pros.forEach(pro => {
       yPosition = addWrappedText(`• ${pro}`, margin + 5, yPosition + 5, pageWidth - 2 * margin - 5, 5);
     });
 
@@ -1201,48 +1195,14 @@ function generatePDF(data) {
       fontSize: 14,
       fontStyle: 'bold'
     });
-    (data.archetypeDescriptions[primaryArchetype].cons || []).forEach(con => {
+    data.archetypeDescriptions[data.primaryArchetype].cons.forEach(con => {
       yPosition = addWrappedText(`• ${con}`, margin + 5, yPosition + 5, pageWidth - 2 * margin - 5, 5);
     });
-
-    // Examples
-    yPosition += 5;
-    yPosition = addWrappedText('Examples:', margin, yPosition, pageWidth - 2 * margin, 5, {
-      fontSize: 14,
-      fontStyle: 'bold'
-    });
-    yPosition = addWrappedText((data.archetypeDescriptions[primaryArchetype].examples || []).join(', '), margin, yPosition + 5, pageWidth - 2 * margin, 5);
-    yPosition += 10;
   }
 
   // Secondary Archetype (if exists)
-  if (secondaryArchetype !== 'Unknown' && data.archetypeDescriptions && data.archetypeDescriptions[secondaryArchetype]) {
-    addSection(`Secondary Archetype: ${secondaryArchetype}`, data.archetypeDescriptions[secondaryArchetype].description || 'Description not available');
-
-    yPosition = addWrappedText('Strengths:', margin, yPosition, pageWidth - 2 * margin, 5, {
-      fontSize: 14,
-      fontStyle: 'bold'
-    });
-    (data.archetypeDescriptions[secondaryArchetype].pros || []).forEach(pro => {
-      yPosition = addWrappedText(`• ${pro}`, margin + 5, yPosition + 5, pageWidth - 2 * margin - 5, 5);
-    });
-
-    yPosition += 5;
-    yPosition = addWrappedText('Potential Challenges:', margin, yPosition, pageWidth - 2 * margin, 5, {
-      fontSize: 14,
-      fontStyle: 'bold'
-    });
-    (data.archetypeDescriptions[secondaryArchetype].cons || []).forEach(con => {
-      yPosition = addWrappedText(`• ${con}`, margin + 5, yPosition + 5, pageWidth - 2 * margin - 5, 5);
-    });
-
-    yPosition += 5;
-    yPosition = addWrappedText('Examples:', margin, yPosition, pageWidth - 2 * margin, 5, {
-      fontSize: 14,
-      fontStyle: 'bold'
-    });
-    yPosition = addWrappedText((data.archetypeDescriptions[secondaryArchetype].examples || []).join(', '), margin, yPosition + 5, pageWidth - 2 * margin, 5);
-    yPosition += 10;
+  if (data.secondaryArchetype && data.archetypeDescriptions && data.archetypeDescriptions[data.secondaryArchetype]) {
+    addSection(`Secondary Archetype: ${data.secondaryArchetype}`, data.archetypeDescriptions[data.secondaryArchetype].description);
   }
 
   // Preferred Environment
@@ -1255,12 +1215,18 @@ function generatePDF(data) {
   }
 
   // Career Opportunities
-  const careerOpportunities = `Given your ${primaryArchetype} archetype${data.primarySuperpower ? ` and ${data.primarySuperpower} superpower` : ''}, you might excel in roles that focus on ${data.archetypeStrengths && data.archetypeStrengths[primaryArchetype] ? data.archetypeStrengths[primaryArchetype] : 'your strengths'}. Consider exploring opportunities in companies that value these skills and align with your preferred work environment.`;
+  const careerOpportunities = `Given your ${data.primaryArchetype} archetype` +
+    (data.primarySuperpower ? ` and ${data.primarySuperpower} superpower` : '') +
+    `, you might excel in roles that focus on ` +
+    (data.archetypeStrengths && data.archetypeStrengths[data.primaryArchetype] ? 
+      data.archetypeStrengths[data.primaryArchetype] : 
+      'leveraging your unique strengths') +
+    `. Consider exploring opportunities in companies that value these skills and align with your preferred work environment.`;
   addSection('Career Opportunities', careerOpportunities);
 
-  if (data.companyRecommendations && data.companyRecommendations[primaryArchetype]) {
+  if (data.companyRecommendations && data.companyRecommendations[data.primaryArchetype]) {
     yPosition = addWrappedText('Some companies that might be a good fit include:', margin, yPosition, pageWidth - 2 * margin, 5);
-    data.companyRecommendations[primaryArchetype].forEach(company => {
+    data.companyRecommendations[data.primaryArchetype].forEach(company => {
       yPosition = addWrappedText(`• ${company}`, margin + 5, yPosition + 5, pageWidth - 2 * margin - 5, 5);
     });
   }
@@ -1268,11 +1234,11 @@ function generatePDF(data) {
 
   // How to Present Yourself
   addSection('How to Present Yourself', 'When introducing yourself or writing your resume, emphasize your unique combination of strengths. For example:');
-  if (data.archetypeStrengths && data.archetypeStrengths[primaryArchetype]) {
-    yPosition = addWrappedText(`• "${data.archetypeStrengths[primaryArchetype]}"`, margin + 5, yPosition, pageWidth - 2 * margin - 5, 5);
+  if (data.archetypeStrengths && data.archetypeStrengths[data.primaryArchetype]) {
+    yPosition = addWrappedText(`• "${data.archetypeStrengths[data.primaryArchetype]}"`, margin + 5, yPosition, pageWidth - 2 * margin - 5, 5);
   }
-  if (data.archetypeAchievements && data.archetypeAchievements[primaryArchetype]) {
-    yPosition = addWrappedText(`• "${data.archetypeAchievements[primaryArchetype]}"`, margin + 5, yPosition + 5, pageWidth - 2 * margin - 5, 5);
+  if (data.archetypeAchievements && data.archetypeAchievements[data.primaryArchetype]) {
+    yPosition = addWrappedText(`• "${data.archetypeAchievements[data.primaryArchetype]}"`, margin + 5, yPosition + 5, pageWidth - 2 * margin - 5, 5);
   }
 
   // Add data visualization
@@ -1289,6 +1255,9 @@ function generatePDF(data) {
       }
 
       doc.addImage(imgData, 'PNG', margin, yPosition + 10, imgWidth, imgHeight);
+      doc.save('product_leadership_profile.pdf');
+    }).catch(error => {
+      console.error('Error generating data visualization:', error);
       doc.save('product_leadership_profile.pdf');
     });
   } else {
