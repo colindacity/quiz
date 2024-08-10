@@ -1001,7 +1001,7 @@ document.getElementById('download-pdf').onclick = function() {
   if (quizResultData) {
     console.log('Primary Archetype before generatePDF:', quizResultData.primaryArchetype);
     console.log('Company Recommendations before generatePDF:', JSON.stringify(quizResultData.companyRecommendations, null, 2));
-    generatePDF(quizResultData);
+    generatePDF(resultData);
   } else {
     console.error('Result data not available for PDF generation');
     alert('Result data is not available. Please retake the quiz.');
