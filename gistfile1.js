@@ -244,7 +244,7 @@ const quizData = [
         scores: {
           "General Manager": 2,
           "Growth Driver": 1,
-          "Sales-Driven": "1"
+          "Sales-Driven": 1
         }
       },
       {
@@ -990,9 +990,8 @@ function showResults() {
       responses: userResponses
     });
 
-    // Center retake button
-    retakeButton.style.display = 'block';
-    retakeButton.style.margin = '20px auto';
+    // Add retake button
+    addRetakeButton();
 
     // Set up download button event listeners
     document.getElementById('download-pdf').onclick = function() {
@@ -1236,13 +1235,15 @@ function generatePDF(data) {
   addSection('Product Decision-Making', `${data.pmCulture}: ${data.pmCultureDescriptions[data.pmCulture]}`);
 
   // Career Opportunities
-  const careerOpportunities = `Given your ${data.primaryArchetype} archetype${data.primarySuperpower ? ` and ${data.primarySuperpower} superpower` : ''}, you might excel in roles that focus on ${data.archetypeStrengths[data.primaryArchetype]} Consider exploring opportunities in companies that value these skills and align with your preferred work environment.`;
+  const careerOpportunities = `Given your ${data.primaryArchetype || 'primary'} archetype${data.primarySuperpower ? ` and ${data.primarySuperpower} superpower` : ''}, you might excel in roles that focus on ${(data.archetypeStrengths && data.archetypeStrengths[data.primaryArchetype]) || 'your strengths'}. Consider exploring opportunities in companies that value these skills and align with your preferred work environment.`;
   addSection('Career Opportunities', careerOpportunities);
 
   yPosition = addWrappedText('Some companies that might be a good fit include:', margin, yPosition, pageWidth - 2 * margin, 5);
-  data.companyRecommendations[data.primaryArchetype].forEach(company => {
-    yPosition = addWrappedText(`• ${company}`, margin + 5, yPosition + 5, pageWidth - 2 * margin - 5, 5);
-  });
+  if (data.companyRecommendations && data.companyRecommendations[data.primaryArchetype]) {
+    data.companyRecommendations[data.primaryArchetype].forEach(company => {
+      yPosition = addWrappedText(`• ${company}`, margin + 5, yPosition + 5, pageWidth - 2 * margin - 5, 5);
+    });
+  }
   yPosition += 10;
 
   // How to Present Yourself
@@ -1275,7 +1276,7 @@ function generatePNG(data) {
   const canvas = document.createElement('canvas');
   const ctx = canvas.getContext('2d');
   const width = 1080;
-  const height = 1920;
+  let height = 1920;
   canvas.width = width;
   canvas.height = height;
 
@@ -1424,6 +1425,14 @@ function generatePNG(data) {
     fontSize: 24
   });
 
+  // Check if we need more height
+  if (yPosition > height) {
+    height = yPosition + 100; // Add some extra padding
+    canvas.height = height;
+    // Redraw everything on the larger canvas
+    // (You'll need to repeat the drawing code here)
+  }
+
   // Add data visualization
   const dataVisualization = document.getElementById('data-visualization');
   if (dataVisualization) {
@@ -1468,6 +1477,30 @@ function shareResults(platform) {
   window.open(shareUrl, '_blank', 'noopener,noreferrer');
 }
 
+function addRetakeButton() {
+  // Remove any existing retake buttons first
+  const existingRetakeButtons = document.querySelectorAll('#retake-btn');
+  existingRetakeButtons.forEach(button => button.remove());
+
+  const retakeButton = document.createElement('button');
+  retakeButton.textContent = 'Retake Quiz';
+  retakeButton.id = 'retake-btn';
+  retakeButton.classList.add('secondary-button');
+  retakeButton.style.marginTop = '20px';
+  retakeButton.style.display = 'block';
+  retakeButton.style.margin = '20px auto';
+  retakeButton.addEventListener('click', () => {
+    currentQuestionIndex = 0;
+    userResponses = [];
+    showQuestion(currentQuestionIndex);
+    resultsContainer.style.display = 'none';
+    quizContainer.style.display = 'block';
+    questionTitle.style.display = 'block';
+  });
+  
+  resultsContainer.appendChild(retakeButton);
+}
+
 showQuestion(currentQuestionIndex);
 
 backArrow.addEventListener('click', () => {
@@ -1483,21 +1516,6 @@ backArrow.addEventListener('click', () => {
     showQuestion(currentQuestionIndex);
   }
 });
-
-const retakeButton = document.createElement('button');
-retakeButton.textContent = 'Retake Quiz';
-retakeButton.id = 'retake-btn';
-retakeButton.classList.add('secondary-button');
-retakeButton.style.marginTop = '20px';
-retakeButton.addEventListener('click', () => {
-  currentQuestionIndex = 0;
-  userResponses = [];
-  showQuestion(currentQuestionIndex);
-  resultsContainer.style.display = 'none';
-  quizContainer.style.display = 'block';
-  questionTitle.style.display = 'block';
-});
-resultsContainer.appendChild(retakeButton);
 
 document.querySelectorAll('.share-button').forEach(button => {
   button.addEventListener('click', function() {
