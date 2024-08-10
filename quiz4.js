@@ -34,6 +34,14 @@ const quizData = [
           "Team Expertise": 1,
           "Vision-Driven": 1
         }
+      },
+      {
+        text: "Adapting products for new markets or use cases",
+        scores: {
+          "New Market-Fit Expander": 2,
+          "Growth Driver": 1,
+          "Product Crafting": 1
+        }
       }
     ],
     type: "single"
@@ -71,6 +79,14 @@ const quizData = [
           "Zero-to-One Innovator": 2,
           "UX Innovator": 1,
           "Vision-Driven": 1
+        }
+      },
+      {
+        text: "Researching new markets and adapting products to fit local needs",
+        scores: {
+          "New Market-Fit Expander": 2,
+          "Growth Driver": 1,
+          "Product Crafting": 1
         }
       }
     ],
@@ -110,6 +126,14 @@ const quizData = [
           "Product Crafting": 1,
           "Engineering-Driven": 1
         }
+      },
+      {
+        text: "Successfully expanding products into new markets",
+        scores: {
+          "New Market-Fit Expander": 2,
+          "Growth Driver": 1,
+          "Product Crafting": 1
+        }
       }
     ],
     type: "single"
@@ -140,6 +164,14 @@ const quizData = [
           "Technician": 1,
           "Engineering-Driven": 1
         }
+      },
+      {
+        text: "PMs are key in identifying and adapting to new market opportunities",
+        scores: {
+          "New Market-Fit Expander": 1,
+          "Growth Driver": 1,
+          "Product Crafting": 1
+        }
       }
     ],
     type: "single"
@@ -169,6 +201,14 @@ const quizData = [
           "PM-Serviced": 1,
           "Internal Scaler": 1,
           "Sales-Driven": 1
+        }
+      },
+      {
+        text: "PMs drive product adaptation for diverse markets",
+        scores: {
+          "New Market-Fit Expander": 1,
+          "Growth Driver": 1,
+          "Product Crafting": 1
         }
       }
     ],
@@ -207,6 +247,14 @@ const quizData = [
           "Technician": 2,
           "Internal Scaler": 1,
           "Engineering-Driven": 1
+        }
+      },
+      {
+        text: "Comfortable, especially for new markets",
+        scores: {
+          "New Market-Fit Expander": 2,
+          "Growth Driver": 1,
+          "Product Crafting": 1
         }
       }
     ],
@@ -261,6 +309,14 @@ const quizData = [
           "Zero-to-One Innovator": 2,
           "Growth Driver": 1,
           "Vision-Driven": 1
+        }
+      },
+      {
+        text: "Market share in new regions or segments",
+        scores: {
+          "New Market-Fit Expander": 2,
+          "Growth Driver": 1,
+          "Product Crafting": 1
         }
       }
     ],
@@ -324,6 +380,14 @@ const quizData = [
           "UX Innovator": 1,
           "Vision-Driven": 1
         }
+      },
+      {
+        text: "Adapting products for diverse markets and cultures",
+        scores: {
+          "New Market-Fit Expander": 2,
+          "Growth Driver": 1,
+          "Product Crafting": 1
+        }
       }
     ],
     type: "single"
@@ -378,12 +442,20 @@ const quizData = [
           "Growth Driver": 1,
           "Vision-Driven": 1
         }
+      },
+      {
+        text: "Companies looking to expand into new markets or verticals",
+        scores: {
+          "New Market-Fit Expander": 2,
+          "Growth Driver": 1,
+          "Product Crafting": 1
+        }
       }
     ],
     type: "single"
   },
   {
-    question: "When faced with a product challenge, which TWO of these do you typically prioritize? (Select 2)",
+    question: "When faced with a product challenge, which TWO do you typically prioritize? (Select 2)",
     options: [
       {
         text: "Dive into data and analytics to find insights",
@@ -439,6 +511,15 @@ const quizData = [
           "Zero-to-One Innovator": 2,
           "UX Innovator": 1,
           "Vision-Driven": 1
+        }
+      },
+      {
+        text: "Research market trends and cultural factors",
+        scores: {
+          "New Market-Fit Expander": 2,
+          "Growth Driver": 1,
+          "Product Crafting": 1,
+          "Zero-to-One Innovator": 1
         }
       }
     ],
@@ -502,6 +583,14 @@ const quizData = [
           "UX Innovator": 1,
           "Vision-Driven": 1
         }
+      },
+      {
+        text: "Researching and adapting products for new markets",
+        scores: {
+          "New Market-Fit Expander": 2,
+          "Growth Driver": 1,
+          "Product Crafting": 1
+        }
       }
     ],
     type: "multi"
@@ -547,6 +636,14 @@ const quizData = [
           "Zero-to-One Innovator": 2,
           "UX Innovator": 1,
           "Vision-Driven": 1
+        }
+      },
+      {
+        text: "Market research and cultural insights",
+        scores: {
+          "New Market-Fit Expander": 2,
+          "Growth Driver": 1,
+          "Product Crafting": 1
         }
       }
     ],
@@ -596,7 +693,14 @@ const archetypeDescriptions = {
     pros: ["Visionary thinking", "Thrives in ambiguity", "Strong at product-market fit discovery", "Inspirational leadership"],
     cons: ["May struggle with day-to-day execution", "Less suited for scaling and growth work"],
     examples: ["Elon Musk (Tesla, SpaceX)", "Patrick Collison (Stripe)", "Anne Wojcicki (23andMe)", "Tony Fadell (Nest, iPod)"]
+  },  
+  "New Market-Fit Expander": {
+    description: "New Market-Fit Expanders excel at adapting existing products for new markets or use cases. They have a keen understanding of different market needs and can identify opportunities to expand a product's reach.",
+    pros: ["Market research skills", "Product localization expertise", "Cultural sensitivity", "Adaptability"],
+    cons: ["May struggle with creating entirely new products", "Risk of over-adapting products for specific markets"],
+    examples: ["Ajay Banga (Mastercard)", "Dara Khosrowshahi (Uber)", "Satya Nadella (Microsoft)"]
   }
+
 };
 
 const superpowerDescriptions = {
@@ -800,7 +904,8 @@ function showResults() {
       "General Manager": ["Salesforce", "Oracle", "Adobe"],
       "Product Optimizer": ["Booking.com", "Netflix", "Spotify"],
       "Technician": ["Tesla", "SpaceX", "NVIDIA"],
-      "Zero-to-One Innovator": ["Stripe", "Palantir", "Snowflake"]
+      "Zero-to-One Innovator": ["Stripe", "Palantir", "Snowflake"],
+        "New Market-Fit Expander": ["Airbnb", "Netflix", "Uber"]
     };
 
     const archetypeStrengths = {
@@ -810,7 +915,9 @@ function showResults() {
       "General Manager": "I've been a product leader for 10 years, successfully balancing diverse stakeholder needs while achieving overarching business objectives in complex, multi-product environments.",
       "Product Optimizer": "I've been a product leader for 10 years, primarily working in B2B SaaS, turning products with product-market fit into best-in-class solutions through continuous, data-driven improvements.",
       "Technician": "I've been a product leader for 10 years, leveraging deep technical expertise to solve complex challenges and build cutting-edge products in highly technical domains.",
-      "Zero-to-One Innovator": "I've been a product leader for 10 years, specializing in conceptualizing and bringing to life entirely new product categories that disrupted established markets."
+      "Zero-to-One Innovator": "I've been a product leader for 10 years, specializing in conceptualizing and bringing to life entirely new product categories that disrupted established markets.",
+        "New Market-Fit Expander": "I've been a product leader for 10 years, specializing in adapting existing products for new markets and use cases, leveraging deep market research and cultural insights to drive successful expansions."
+
     };
 
     const archetypeAchievements = {
@@ -820,7 +927,9 @@ function showResults() {
       "General Manager": "Orchestrated the launch of a new enterprise SaaS platform, achieving $20M ARR within the first year and a 95% customer retention rate",
       "Product Optimizer": "Implemented a data-driven optimization framework that improved key performance metrics by 50%, leading to a 30% increase in customer lifetime value",
       "Technician": "Architected a new AI-powered recommendation engine that increased average order value by 45% and drove a 25% improvement in customer satisfaction scores",
-      "Zero-to-One Innovator": "Conceptualized and launched an industry-first blockchain-based supply chain solution, securing partnerships with 3 Fortune 500 companies within 6 months of release"
+      "Zero-to-One Innovator": "Conceptualized and launched an industry-first blockchain-based supply chain solution, securing partnerships with 3 Fortune 500 companies within 6 months of release",
+        "New Market-Fit Expander": "Successfully adapted our core product for three new international markets, resulting in a 40% increase in global revenue and establishing market leadership in two new regions within 18 months"
+
     };
 
     const superpowerActions = {
