@@ -1054,39 +1054,96 @@ function getHighestScore(obj) {
 }
 
 function createCustomVisualization(scores) {
-const container = document.getElementById('data-visualization');
-container.innerHTML = ''; // Clear existing content
-const svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
-svg.setAttribute("viewBox", "0 0 100 100");
-svg.setAttribute("width", "100%");
-svg.setAttribute("height", "400");
-const archetypes = Object.keys(scores.archetypes);
-const maxScore = Math.max(...Object.values(scores.archetypes));
-const colors = [
-'#29cef9', '#31f60a', '#f23dff', '#001a49', '#4a90e2', '#50e3c2', '#b8e986'
-];
-archetypes.forEach((archetype, index) => {
-const score = scores.archetypes[archetype];
-const angle = (index / archetypes.length) * 2 * Math.PI;
-const x = 50 + 40 * Math.cos(angle);
-const y = 50 + 40 * Math.sin(angle);
-const circle = document.createElementNS("http://www.w3.org/2000/svg", "circle");
-circle.setAttribute("cx", x);
-circle.setAttribute("cy", y);
-circle.setAttribute("r", (score / maxScore) * 10);
-circle.setAttribute("fill", colors[index % colors.length]);
-const text = document.createElementNS("http://www.w3.org/2000/svg", "text");
-text.setAttribute("x", x);
-text.setAttribute("y", y + ((score / maxScore) * 10) + 5); // Adjusted Y position
-text.setAttribute("text-anchor", "middle");
-text.setAttribute("font-size", "4"); // Reduced font size
-text.textContent = archetype;
-svg.appendChild(circle);
-svg.appendChild(text);
-});
-container.appendChild(svg);
-}
+  const container = document.getElementById('data-visualization');
+  container.innerHTML = '';
+  
+  const svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+  svg.setAttribute("viewBox", "0 0 600 400");
+  svg.setAttribute("width", "100%");
+  svg.setAttribute("height", "400");
+  
+  const archetypes = Object.keys(scores.archetypes);
+  const maxScore = Math.max(...Object.values(scores.archetypes));
+  const colors = [
+    '#4e79a7', '#f28e2c', '#e15759', '#76b7b2', '#59a14f', '#edc949', '#af7aa1', '#ff9da7'
+  ];
+  
+  const padding = 40;
+  const circleRadius = 25;
+  const lineLength = 80;
+  const textOffset = 10;
 
+  // Background
+  const background = document.createElementNS("http://www.w3.org/2000/svg", "rect");
+  background.setAttribute("width", "100%");
+  background.setAttribute("height", "100%");
+  background.setAttribute("fill", "#f8f9fa");
+  svg.appendChild(background);
+
+  // Title
+  const title = document.createElementNS("http://www.w3.org/2000/svg", "text");
+  title.setAttribute("x", 300);
+  title.setAttribute("y", 30);
+  title.setAttribute("text-anchor", "middle");
+  title.setAttribute("font-size", "20");
+  title.setAttribute("font-weight", "bold");
+  title.setAttribute("fill", "#333");
+  title.textContent = "Product Leadership Archetype Profile";
+  svg.appendChild(title);
+
+  archetypes.forEach((archetype, index) => {
+    const score = scores.archetypes[archetype];
+    const normalizedScore = score / maxScore;
+    
+    const angle = ((index / archetypes.length) * 2 * Math.PI) - (Math.PI / 2);
+    const centerX = 300 + Math.cos(angle) * lineLength;
+    const centerY = 220 + Math.sin(angle) * lineLength;
+    
+    // Line
+    const line = document.createElementNS("http://www.w3.org/2000/svg", "line");
+    line.setAttribute("x1", 300);
+    line.setAttribute("y1", 220);
+    line.setAttribute("x2", centerX);
+    line.setAttribute("y2", centerY);
+    line.setAttribute("stroke", colors[index % colors.length]);
+    line.setAttribute("stroke-width", 2);
+    svg.appendChild(line);
+    
+    // Circle
+    const circle = document.createElementNS("http://www.w3.org/2000/svg", "circle");
+    circle.setAttribute("cx", centerX);
+    circle.setAttribute("cy", centerY);
+    circle.setAttribute("r", circleRadius * normalizedScore);
+    circle.setAttribute("fill", colors[index % colors.length]);
+    circle.setAttribute("opacity", 0.7);
+    svg.appendChild(circle);
+    
+    // Score
+    const scoreText = document.createElementNS("http://www.w3.org/2000/svg", "text");
+    scoreText.setAttribute("x", centerX);
+    scoreText.setAttribute("y", centerY);
+    scoreText.setAttribute("text-anchor", "middle");
+    scoreText.setAttribute("dominant-baseline", "central");
+    scoreText.setAttribute("font-size", "12");
+    scoreText.setAttribute("font-weight", "bold");
+    scoreText.setAttribute("fill", "#fff");
+    scoreText.textContent = Math.round(score);
+    svg.appendChild(scoreText);
+    
+    // Archetype label
+    const text = document.createElementNS("http://www.w3.org/2000/svg", "text");
+    text.setAttribute("x", centerX + (Math.cos(angle) * (circleRadius + textOffset)));
+    text.setAttribute("y", centerY + (Math.sin(angle) * (circleRadius + textOffset)));
+    text.setAttribute("text-anchor", angle > Math.PI / 2 && angle < 3 * Math.PI / 2 ? "end" : "start");
+    text.setAttribute("dominant-baseline", "central");
+    text.setAttribute("font-size", "14");
+    text.setAttribute("fill", "#333");
+    text.textContent = archetype;
+    svg.appendChild(text);
+  });
+
+  container.appendChild(svg);
+}
   
 function shareResults(platform) {
   const [primaryArchetype] = getTopTwo(calculateScores().archetypes);
