@@ -996,16 +996,19 @@ function showResults() {
     addRetakeButton();
 
     // Set up download button event listeners
-    document.getElementById('download-pdf').onclick = function() {
-      console.log('PDF button clicked, quizResultData:', quizResultData);
-      if (quizResultData) {
-        generatePDF(quizResultData);
-      } else {
-        console.error('Result data not available for PDF generation');
-        alert('Result data is not available. Please retake the quiz.');
-      }
-    };
+document.getElementById('download-pdf').onclick = function() {
+  console.log('PDF button clicked, quizResultData:', JSON.stringify(quizResultData, null, 2));
+  if (quizResultData) {
+    console.log('Primary Archetype before generatePDF:', quizResultData.primaryArchetype);
+    console.log('Company Recommendations before generatePDF:', JSON.stringify(quizResultData.companyRecommendations, null, 2));
+    generatePDF(quizResultData);
+  } else {
+    console.error('Result data not available for PDF generation');
+    alert('Result data is not available. Please retake the quiz.');
+  }
+};
 
+    
     document.getElementById('download-png').onclick = function() {
       console.log('PNG button clicked, quizResultData:', quizResultData);
       if (quizResultData) {
@@ -1114,7 +1117,9 @@ function createCustomVisualization(scores) {
 }
 
 function generatePDF(data) {
-  console.log('Generating PDF with data:', data);
+  console.log('Entering generatePDF, data:', JSON.stringify(data, null, 2));
+  console.log('Primary Archetype in generatePDF:', data.primaryArchetype);
+  console.log('Company Recommendations in generatePDF:', JSON.stringify(data.companyRecommendations, null, 2));
 
   const { jsPDF } = window.jspdf;
   const doc = new jsPDF();
