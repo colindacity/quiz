@@ -695,8 +695,8 @@ const archetypeDescriptions = {
     examples: ["Elon Musk (Tesla, SpaceX)", "Patrick Collison (Stripe)", "Anne Wojcicki (23andMe)", "Tony Fadell (Nest, iPod)"]
   },  
   "New Market-Fit Expander": {
-    description: "New Market-Fit Expanders excel at adapting existing products for new markets or use cases. They have a keen understanding of different market needs and can identify opportunities to expand a product's reach.",
-    pros: ["Market research skills", "Product localization expertise", "Cultural sensitivity", "Adaptability"],
+    description: "New Market-Fit Expanders excel at adapting existing products for new markets or use cases, such as international markets or adapting a consumer product for enterprise customers. They have a keen understanding of different market needs and can identify opportunities to expand a product's reach.",
+    pros: ["Market research skills", "New segment adaptation or localization expertise", "Cultural sensitivity", "Adaptability"],
     cons: ["May struggle with creating entirely new products", "Risk of over-adapting products for specific markets"],
     examples: ["Ajay Banga (Mastercard)", "Dara Khosrowshahi (Uber)", "Satya Nadella (Microsoft)"]
   }
