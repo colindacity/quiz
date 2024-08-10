@@ -993,31 +993,9 @@ function showResults() {
     });
 
     // Add retake button
-    addRetakeButton();
+ //   addRetakeButton();
 
-    // Set up download button event listeners
-// document.getElementById('download-pdf').onclick = function() {
-  //console.log('PDF button clicked, quizResultData:', JSON.stringify(quizResultData, null, 2));
-  //if (quizResultData) {
-  //  console.log('Primary Archetype before generatePDF:', quizResultData.primaryArchetype);
-//    console.log('Company Recommendations before generatePDF:', JSON.stringify(quizResultData.companyRecommendations, null, 2));
-  //  generatePDF(resultData);
-  //} else {
-    //console.error('Result data not available for PDF generation');
-    //alert('Result data is not available. Please retake the quiz.');
-  //}
-//};
 
-    
-  //  document.getElementById('download-png').onclick = function() {
-    //  console.log('PNG button clicked, quizResultData:', quizResultData);
-      //if (quizResultData) {
-        //generatePNG(quizResultData);
-      //} else {
-       // console.error('Result data not available for PNG generation');
-        //alert('Result data is not available. Please retake the quiz.');
-      //}
-    //};
 
   } catch (error) {
     console.error('Error in showResults:', error);
