@@ -1229,8 +1229,7 @@ function generatePDF(data) {
     (data.archetypeStrengths && data.archetypeStrengths[data.primaryArchetype] ? 
       data.archetypeStrengths[data.primaryArchetype] : 
       'leveraging your unique strengths') +
-    `. Consider exploring opportunities in companies that value these skills and align with your preferred work environment.`;
-  addSection('Career Opportunities', careerOpportunities);
+    `. 
 
  
 
