@@ -996,13 +996,13 @@ function showResults() {
     addRetakeButton();
 
     // Set up download button event listeners
-document.getElementById('download-pdf').onclick = function() {
-   console.log('PDF button clicked, quizResultData:', quizResultData);
-if (quizResultData) {
- generatePDF(quizResultData);
- } else {
-       console.error('Result data not available for PDF generation');
-       alert('Result data is not available. Please retake the quiz.');
+    document.getElementById('download-pdf').onclick = function() {
+      console.log('PDF button clicked, quizResultData:', quizResultData);
+      if (quizResultData) {
+        generatePDF(quizResultData);
+      } else {
+        console.error('Result data not available for PDF generation');
+        alert('Result data is not available. Please retake the quiz.');
       }
     };
 
