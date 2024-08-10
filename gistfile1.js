@@ -1232,16 +1232,7 @@ function generatePDF(data) {
     `. Consider exploring opportunities in companies that value these skills and align with your preferred work environment.`;
   addSection('Career Opportunities', careerOpportunities);
 
-  // Check if companyRecommendations exists and has data for the primary archetype
-  if (data.companyRecommendations && data.companyRecommendations[data.primaryArchetype]) {
-    yPosition = addWrappedText('Some companies that might be a good fit include:', margin, yPosition, pageWidth - 2 * margin, 5);
-    data.companyRecommendations[data.primaryArchetype].forEach(company => {
-      yPosition = addWrappedText(`• ${company}`, margin + 5, yPosition + 5, pageWidth - 2 * margin - 5, 5);
-    });
-  } else {
-    yPosition = addWrappedText('Company recommendations are not available for this archetype.', margin, yPosition, pageWidth - 2 * margin, 5);
-  }
-  yPosition += 10;
+ 
 
   // How to Present Yourself
   addSection('How to Present Yourself', 'When introducing yourself or writing your resume, emphasize your unique combination of strengths. For example:');
