@@ -653,54 +653,207 @@ const quizData = [
 
 const archetypeDescriptions = {
   "Growth Driver": {
-    description: "Growth Drivers have strong marketing skills and an affinity for AB testing and experimentation. They move fast, prioritizing speed and agility over craft. They are data-driven and approach problems more from science than art.",
-    pros: ["Marketing expertise", "AB testing / experimentation skills", "Quantitative data fluency", "User psychology understanding"],
-    cons: ["May prioritize speed over quality", "Less suited for zero-to-one product development"],
-    examples: ["Sean Ellis (Growth Hacking)", "Casey Winters (Pinterest, Grubhub)", "Brian Balfour (Reforge)", "Elena Verna (SurveyMonkey, Malwarebytes)"]
+    description: "Growth Drivers excel at driving user acquisition and retention through data-driven strategies, rapid experimentation, and growth hacking techniques.",
+    pros: ["Data-driven decision making", "User acquisition strategies", "Retention optimization", "Rapid experimentation"],
+    cons: ["May prioritize short-term gains over long-term strategy", "Can overlook product quality in favor of speed"],
+    examples: [
+      {
+        name: "Casey Winters",
+        title: "Chief Product Officer",
+        company: "Eventbrite",
+        source: "https://www.eventbrite.com"
+      },
+      {
+        name: "Elena Verna",
+        title: "Interim Head of Growth",
+        company: "Amplitude",
+        source: "https://amplitude.com"
+      },
+      {
+        name: "Brian Balfour",
+        title: "CEO",
+        company: "Reforge",
+        source: "https://www.reforge.com"
+      }
+    ]
   },
   "UX Innovator": {
-    description: "UX Innovators are profoundly committed to user-centered design. They are excellent holistic thinkers and can articulate the end-to-end product experience. They are problem-centered and develop exceptional user empathy.",
-    pros: ["User-centered design expertise", "Holistic thinking", "Strong problem-solving skills", "Exceptional user empathy"],
-    cons: ["May focus too much on design over business metrics", "Less suited for growth and scaling work"],
-    examples: ["Jony Ive (Apple)", "Julie Zhuo (Facebook)", "Luke Wroblewski (Google)", "Sarah Doody (UX consultant and educator)"]
+    description: "UX Innovators focus on creating intuitive and engaging user experiences, ensuring products are user-friendly and meet user needs.",
+    pros: ["User-centric design", "Holistic thinking", "Strong user empathy", "Excellent problem-solving skills"],
+    cons: ["May overemphasize design at the expense of business goals", "Could struggle with scalability"],
+    examples: [
+      {
+        name: "Alex Hood",
+        title: "Chief Product Officer",
+        company: "Asana",
+        source: "https://asana.com"
+      },
+      {
+        name: "Rahul Vohra",
+        title: "Founder and CEO",
+        company: "Superhuman",
+        source: "https://superhuman.com"
+      },
+      {
+        name: "Aarron Walter",
+        title: "Former VP of Product",
+        company: "InVision",
+        source: "https://www.invisionapp.com"
+      }
+    ]
   },
   "Internal Scaler": {
-    description: "Internal Scalers excel at navigating organizational intricacies. They're inwardly focused and are efficiency experts who tend to be more technically inclined. They thrive on making internal stakeholders more productive.",
-    pros: ["Technical inclination", "Efficiency and productivity expertise", "Strong at build vs. buy decisions", "Excellent internal stakeholder management"],
-    cons: ["Less focused on external customers", "Not ideal for product-market fit expansion"],
-    examples: ["Sheryl Sandberg (Facebook)", "Jeff Bezos (Amazon)", "Patty McCord (Netflix)", "Laszlo Bock (Google, Humu)"]
+    description: "Internal Scalers focus on optimizing internal processes, improving cross-functional collaboration, and scaling operations to support product development.",
+    pros: ["Process optimization", "Cross-functional collaboration", "Scalability", "Team productivity"],
+    cons: ["May focus too much on internal efficiency over external customer needs", "Can be resistant to change"],
+    examples: [
+      {
+        name: "Gibson Biddle",
+        title: "Former VP of Product Management",
+        company: "Netflix",
+        source: "https://gibsonbiddle.com"
+      },
+      {
+        name: "Jackie Bavaro",
+        title: "Former Head of Product Management",
+        company: "Asana",
+        source: "https://www.linkedin.com/in/jackiebavaro"
+      },
+      {
+        name: "Shiva Rajaraman",
+        title: "VP of Product",
+        company: "WeWork",
+        source: "https://www.linkedin.com/in/shivarajaraman"
+      }
+    ]
   },
   "General Manager": {
-    description: "General Managers are natural leaders and communicators with a strong understanding of finance, P&L, and go-to-market strategy. They bridge the gap between technology and business sides of the company.",
-    pros: ["Natural leadership skills", "Finance/P&L understanding", "Stakeholder management expertise", "Strong GTM strategy"],
-    cons: ["May lack deep expertise in specific areas", "Less suited for zero-to-one product development"],
-    examples: ["Sundar Pichai (Google)", "Satya Nadella (Microsoft)", "Marissa Mayer (Yahoo)", "Stewart Butterfield (Slack)"]
+    description: "General Managers oversee the entire product strategy, balancing business goals with product development, and often have P&L responsibility.",
+    pros: ["Strategic thinking", "Leadership", "P&L management", "Cross-functional alignment"],
+    cons: ["May lack deep expertise in specific areas", "Can be too removed from day-to-day product development"],
+    examples: [
+      {
+        name: "Ravi Mehta",
+        title: "Former Chief Product Officer",
+        company: "Tinder",
+        source: "https://www.linkedin.com/in/ravi-mehta-2a56a32"
+      },
+      {
+        name: "Lenny Rachitsky",
+        title: "Former Product Lead",
+        company: "Airbnb",
+        source: "https://www.linkedin.com/in/lennyrachitsky"
+      },
+      {
+        name: "Alex Hood",
+        title: "Chief Product Officer",
+        company: "Asana",
+        source: "https://asana.com"
+      }
+    ]
   },
   "Product Optimizer": {
-    description: "Product Optimizers thrive on fine-tuning product features to make them incrementally better. They have an iterative and quantitative focus in their development and care about feature adoption and effective positioning.",
-    pros: ["Iterative development skills", "Messaging expertise", "Quantitative focus", "Strong at incremental improvements"],
-    cons: ["May struggle with big-picture thinking", "Less suited for visionary product work"],
-    examples: ["Marty Cagan (Netscape, eBay)", "Ken Norton (Google)", "Teresa Torres (Product Discovery Coach)", "Dan Olsen (Lean Product Playbook author)"]
+    description: "Product Optimizers focus on refining and improving existing products through iterative development, user feedback, and data-driven enhancements.",
+    pros: ["Iterative development", "User feedback integration", "Incremental improvements", "Data-driven decisions"],
+    cons: ["May struggle with big-picture thinking", "Can be overly focused on existing products"],
+    examples: [
+      {
+        name: "Ken Norton",
+        title: "Former Partner",
+        company: "Google Ventures",
+        source: "https://kennethnorton.com"
+      },
+      {
+        name: "Teresa Torres",
+        title: "Product Discovery Coach",
+        company: "Product Talk",
+        source: "https://www.producttalk.org"
+      },
+      {
+        name: "Gokul Rajaram",
+        title: "Head of Product",
+        company: "DoorDash",
+        source: "https://www.linkedin.com/in/gokulrajaram"
+      }
+    ]
   },
   "Technician": {
-    description: "Technicians excel in scaling and systems. They're ideal for technically complex work and often have a background in engineering or data science. They communicate well with technical stakeholders.",
-    pros: ["Strong technical skills", "Systems thinking", "Excellent at scaling", "Great communication with technical teams"],
-    cons: ["May focus too much on technical aspects", "Less suited for user-centric feature development"],
-    examples: ["Jeff Dean (Google)", "Demis Hassabis (DeepMind)", "Melanie Perkins (Canva)", "Mitchell Hashimoto (HashiCorp)"]
+    description: "Technicians are deeply technical leaders who focus on complex product architectures, scalability, and integration of new technologies.",
+    pros: ["Technical expertise", "Scalability", "System architecture", "Integration"],
+    cons: ["May focus too much on technology over user experience", "Can struggle with non-technical stakeholders"],
+    examples: [
+      {
+        name: "Adam Nash",
+        title: "Former VP of Product Management",
+        company: "LinkedIn",
+        source: "https://www.linkedin.com/in/adamnash"
+      },
+      {
+        name: "Jeff Dean",
+        title: "Senior Fellow and SVP of Google Research",
+        company: "Google",
+        source: "https://research.google.com"
+      },
+      {
+        name: "Edith Harbaugh",
+        title: "CEO and Co-Founder",
+        company: "LaunchDarkly",
+        source: "https://launchdarkly.com"
+      }
+    ]
   },
   "Zero-to-One Innovator": {
-    description: "Zero-to-One Innovators thrive in ambiguity and are focused on the future. They excel at refining and validating product concepts, and are relentless in their pursuit of new ideas.",
-    pros: ["Visionary thinking", "Thrives in ambiguity", "Strong at product-market fit discovery", "Inspirational leadership"],
-    cons: ["May struggle with day-to-day execution", "Less suited for scaling and growth work"],
-    examples: ["Elon Musk (Tesla, SpaceX)", "Patrick Collison (Stripe)", "Anne Wojcicki (23andMe)", "Tony Fadell (Nest, iPod)"]
-  },  
+    description: "Zero-to-One Innovators excel at creating entirely new products or entering new markets, often working in high ambiguity and with a visionary approach.",
+    pros: ["Visionary thinking", "Market creation", "Innovation", "High tolerance for risk"],
+    cons: ["May struggle with execution", "Can overlook operational challenges"],
+    examples: [
+      {
+        name: "David Cancel",
+        title: "CEO and Founder",
+        company: "Drift",
+        source: "https://www.drift.com"
+      },
+      {
+        name: "Gagan Biyani",
+        title: "CEO and Co-Founder",
+        company: "Maven",
+        source: "https://www.maven.com"
+      },
+      {
+        name: "Patrick Collison",
+        title: "CEO and Co-Founder",
+        company: "Stripe",
+        source: "https://stripe.com"
+      }
+    ]
+  },
   "New Market-Fit Expander": {
-    description: "New Market-Fit Expanders excel at adapting existing products for new markets or use cases, such as international markets or adapting a consumer product for enterprise customers. They have a keen understanding of different market needs and can identify opportunities to expand a product's reach.",
-    pros: ["Market research skills", "New segment adaptation or localization expertise", "Cultural sensitivity", "Adaptability"],
-    cons: ["May struggle with creating entirely new products", "Risk of over-adapting products for specific markets"],
-    examples: ["Ajay Banga (Mastercard)", "Dara Khosrowshahi (Uber)", "Satya Nadella (Microsoft)"]
+    description: "New Market-Fit Expanders excel at adapting existing products for new markets, whether geographical or different market segments.",
+    pros: ["Market research", "Adaptability", "Cultural sensitivity", "Localization"],
+    cons: ["May struggle with creating new products", "Can over-adapt and dilute core product"],
+    examples: [
+      {
+        name: "Neil Hunt",
+        title: "Former Chief Product Officer",
+        company: "Netflix",
+        source: "https://www.linkedin.com/in/neilhunt"
+      },
+      {
+        name: "April Underwood",
+        title: "Former Chief Product Officer",
+        company: "Slack",
+        source: "https://www.linkedin.com/in/aprilunderwood"
+      },
+      {
+        name: "Chris O'Neill",
+        title: "Former CEO",
+        company: "Evernote",
+        source: "https://www.linkedin.com/in/oneillchris"
+      }
+    ]
   }
 };
+
 
 const superpowerDescriptions = {
   "Product Crafting": "have the ability to transform abstract concepts into tangible, user-friendly features. You excel at understanding user needs and creating innovative solutions.",
