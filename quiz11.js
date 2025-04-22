@@ -1,4 +1,16 @@
 function initQuiz() {
+  // Helper function to safely call toLowerCase
+  function safeToLowerCase(str) {
+    if (str && typeof str === 'string') {
+      return str.toLowerCase();
+    }
+    return 'various';
+  }
+  
+  // Helper function for safe property access
+  function getSafeProperty(obj, propName, defaultValue) {
+    return (obj && obj[propName]) ? obj[propName] : defaultValue;
+  }
   const quizData = [
     {
       question: "When working on a product, you excel at:",
