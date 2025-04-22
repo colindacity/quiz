@@ -1,4 +1,4 @@
- * Product Leadership Archetype Quiz
+ /* Product Leadership Archetype Quiz
  * Enhanced version with improved functionality, error handling, and UI
  */
 
