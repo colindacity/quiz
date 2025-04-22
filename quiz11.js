@@ -1,4 +1,5 @@
- /* Product Leadership Archetype Quiz
+ /*
+ * Product Leadership Archetype Quiz
  * Enhanced version with improved functionality, error handling, and UI
  */
 
@@ -2180,4 +2181,4 @@ if (document.readyState === 'loading') {
 // Add global error handler
 window.addEventListener('error', function(event) {
   console.error('Product Quiz - Global error caught:', event.error);
-});/**
+});
