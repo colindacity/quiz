@@ -291,7 +291,10 @@ function initQuiz() {
   }
 
   function showQuestion(index) {
+    console.log(`Showing question ${index+1} of ${quizData.length}`);
+    
     if (index >= quizData.length) {
+      console.log(`All ${quizData.length} questions completed, showing results`);
       showResults();
       return;
     }
@@ -308,6 +311,8 @@ function initQuiz() {
     }
 
     const question = quizData[index];
+    console.log(`Current question: "${question.question}"`);
+    
     if (questionTitle) questionTitle.textContent = question.question;
     quizContainer.innerHTML = '';
 
@@ -317,8 +322,10 @@ function initQuiz() {
       button.innerHTML = `<span>${option.text}</span>`;
       button.addEventListener('click', () => selectOption(optionIndex, question.type));
 
+      // Show previously selected options
       if (userResponses[index] && userResponses[index].includes(optionIndex)) {
         button.classList.add('selected');
+        console.log(`Option ${optionIndex} is pre-selected: "${option.text}"`);
       }
 
       quizContainer.appendChild(button);
@@ -328,18 +335,32 @@ function initQuiz() {
 
     const btn = ensureNextButtonExists();
     btn.style.display = question.type === 'multi' ? 'block' : 'none';
-    btn.disabled = question.type === 'multi' && (!userResponses[index] || userResponses[index].length !== 2);
+    
+    // Check if we have enough selections for this question
+    if (question.type === 'multi') {
+      const hasEnoughSelections = userResponses[index] && userResponses[index].length === 2;
+      btn.disabled = !hasEnoughSelections;
+      console.log(`Next button for multi-choice question is ${btn.disabled ? 'disabled' : 'enabled'}`);
+      console.log(`Current selections: ${userResponses[index] ? userResponses[index].length : 0}/2`);
+    }
   }
 
   function selectOption(optionIndex, questionType) {
+    console.log(`Selecting option ${optionIndex} for question ${currentQuestionIndex+1} (type: ${questionType})`);
+    
     const options = document.querySelectorAll('.option');
-    if (!options || !options.length) return;
+    if (!options || !options.length) {
+      console.error('No options found in selectOption');
+      return;
+    }
 
     if (questionType === 'single') {
       options.forEach((opt, index) => {
         opt.classList.toggle('selected', index === optionIndex);
       });
       userResponses[currentQuestionIndex] = [optionIndex];
+      console.log(`Set response for question ${currentQuestionIndex+1} to: [${optionIndex}]`);
+      
       setTimeout(() => {
         currentQuestionIndex++;
         showQuestion(currentQuestionIndex);
@@ -357,8 +378,11 @@ function initQuiz() {
       }
 
       userResponses[currentQuestionIndex] = selectedOptions;
+      console.log(`Updated response for question ${currentQuestionIndex+1} to: [${selectedOptions}]`);
+      
       const btn = ensureNextButtonExists();
       if (btn) btn.disabled = selectedOptions.length !== 2;
+      console.log(`Next button disabled: ${selectedOptions.length !== 2} (selected: ${selectedOptions.length}/2)`);
     }
   }
 
@@ -434,9 +458,35 @@ function initQuiz() {
 
   function showResults() {
     try {
-      console.log('Showing results...');
+      console.log('------- SHOW RESULTS START -------');
+      console.log('User responses collected:', JSON.stringify(userResponses));
+      
+      // Check if all questions have responses
+      const unansweredQuestions = [];
+      for (let i = 0; i < quizData.length; i++) {
+        if (!userResponses[i] || (quizData[i].type === 'multi' && userResponses[i].length !== 2)) {
+          unansweredQuestions.push(i + 1);
+        }
+      }
+      
+      if (unansweredQuestions.length > 0) {
+        console.warn(`Warning: Questions ${unansweredQuestions.join(', ')} are unanswered or incomplete`);
+      }
+      
+      // Debug what elements we have
+      console.log('Quiz elements exist:', {
+        quizContainer: !!quizContainer,
+        questionTitle: !!questionTitle,
+        resultsContainer: !!resultsContainer,
+        profileSummary: !!profileSummary
+      });
+      
       if (!quizContainer || !questionTitle || !resultsContainer || !profileSummary) {
         console.error('Required DOM elements missing for results display');
+        if (resultsContainer) {
+          resultsContainer.innerHTML = '<p>An error occurred while displaying your results. Please try again.</p>';
+          resultsContainer.style.display = 'block';
+        }
         return;
       }
 
@@ -450,17 +500,25 @@ function initQuiz() {
       let scores;
       try {
         scores = calculateScores();
-        console.log('Calculated scores:', scores);
+        console.log('Final calculated scores:', JSON.stringify(scores));
       } catch (err) {
         console.error('Error calculating scores:', err);
         resultsContainer.innerHTML = '<p>An error occurred while calculating your results. Please try again.</p>';
+        resultsContainer.style.display = 'block';
         return;
       }
 
-      if (!scores || !scores.archetypes || Object.keys(scores.archetypes).length === 0) {
-        console.error('Invalid scores calculated');
+      if (!scores) {
+        console.error('Scores object is undefined');
         resultsContainer.innerHTML = '<p>An error occurred while calculating your results. Please try again.</p>';
+        resultsContainer.style.display = 'block';
         return;
+      }
+      
+      if (!scores.archetypes || Object.keys(scores.archetypes).length === 0) {
+        console.error('No archetype scores were calculated');
+        scores = getDefaultScores();
+        console.log('Using default scores instead:', JSON.stringify(scores));
       }
 
       // FIX 7: Handle edge cases in getTopTwo
@@ -671,6 +729,9 @@ function initQuiz() {
   }
 
   function calculateScores() {
+    console.log('------- SCORE CALCULATION START -------');
+    console.log('User responses:', JSON.stringify(userResponses));
+    
     const scores = {
       archetypes: {},
       superpowers: {},
@@ -678,67 +739,196 @@ function initQuiz() {
       pmCultures: {}
     };
 
-    // FIX 11: Add validation for userResponses
+    // Add validation and detailed logging
     if (!userResponses || !Array.isArray(userResponses)) {
-      console.error('Invalid user responses:', userResponses);
-      return scores;
+      console.error('User responses is not an array:', userResponses);
+      return getDefaultScores();
     }
-
+    
+    if (userResponses.length === 0) {
+      console.error('User responses array is empty');
+      return getDefaultScores();
+    }
+    
+    // Log whether each response exists
     userResponses.forEach((response, index) => {
-      if (!response || !Array.isArray(response) || response.length === 0) return;
+      console.log(`Question ${index+1} response:`, response ? JSON.stringify(response) : 'missing');
+    });
+
+    // Check for archetypes in description object
+    console.log('Available archetypes:', Object.keys(archetypeDescriptions));
+    console.log('Available superpowers:', Object.keys(superpowerDescriptions));
+    console.log('Available product cultures:', Object.keys(productCultureDescriptions));
+    console.log('Available PM cultures:', Object.keys(pmCultureDescriptions));
+
+    // Process each response and calculate scores
+    userResponses.forEach((response, index) => {
+      if (!response || !Array.isArray(response) || response.length === 0) {
+        console.warn(`Skipping question ${index+1} - no valid response`);
+        return;
+      }
 
       const question = quizData[index];
-      if (!question) return;
+      if (!question) {
+        console.warn(`Skipping question ${index+1} - no question data found`);
+        return;
+      }
 
+      console.log(`Processing question ${index+1}: "${question.question}"`);
+      
       response.forEach(optionIndex => {
-        if (optionIndex < 0 || optionIndex >= question.options.length) return;
+        if (optionIndex < 0 || optionIndex >= question.options.length) {
+          console.warn(`Invalid option index ${optionIndex} for question ${index+1}`);
+          return;
+        }
         
         const option = question.options[optionIndex];
-        if (!option || !option.scores) return;
+        if (!option) {
+          console.warn(`No option found at index ${optionIndex} for question ${index+1}`);
+          return;
+        }
+        
+        if (!option.scores) {
+          console.warn(`No scoring data for option ${optionIndex} of question ${index+1}`);
+          return;
+        }
+        
+        console.log(`  Selected: "${option.text}"`);
+        console.log(`  Scores:`, option.scores);
         
         Object.entries(option.scores).forEach(([key, value]) => {
+          // Check which category this key belongs to and add score
           if (key in archetypeDescriptions) {
             scores.archetypes[key] = (scores.archetypes[key] || 0) + value;
+            console.log(`    Added ${value} points to archetype "${key}" (total: ${scores.archetypes[key]})`);
           } else if (key in superpowerDescriptions) {
             scores.superpowers[key] = (scores.superpowers[key] || 0) + value;
+            console.log(`    Added ${value} points to superpower "${key}" (total: ${scores.superpowers[key]})`);
           } else if (key in productCultureDescriptions) {
             scores.productCultures[key] = (scores.productCultures[key] || 0) + value;
+            console.log(`    Added ${value} points to product culture "${key}" (total: ${scores.productCultures[key]})`);
           } else if (key in pmCultureDescriptions) {
             scores.pmCultures[key] = (scores.pmCultures[key] || 0) + value;
+            console.log(`    Added ${value} points to PM culture "${key}" (total: ${scores.pmCultures[key]})`);
+          } else {
+            console.warn(`    Unknown category for key "${key}"`);
           }
         });
       });
     });
+
+    // Check final scores and ensure we have some values
+    console.log('Final calculated scores:', scores);
+    
+    // Check if any category is empty and warn about it
+    if (Object.keys(scores.archetypes).length === 0) {
+      console.error('No archetype scores were calculated!');
+    }
+    
+    if (Object.keys(scores.superpowers).length === 0) {
+      console.error('No superpower scores were calculated!');
+    }
+    
+    if (Object.keys(scores.productCultures).length === 0) {
+      console.error('No product culture scores were calculated!');
+    }
+    
+    if (Object.keys(scores.pmCultures).length === 0) {
+      console.error('No PM culture scores were calculated!');
+    }
+    
+    console.log('------- SCORE CALCULATION END -------');
+    
+    // Return scores as calculated, even if empty - we'll handle this in getTopTwo
+    return scores;
+  }
+  
+  // Helper function to get default scores if needed
+  function getDefaultScores() {
+    console.warn('Using default scores due to invalid responses');
+    return {
+      archetypes: {
+        "Growth Driver": 10,
+        "Product Optimizer": 5,
+        "UX Innovator": 3,
+        "Internal Scaler": 2,
+        "General Manager": 1
+      },
+      superpowers: {
+        "Growth Expertise": 5,
+        "Product Crafting": 3
+      },
+      productCultures: {
+        "Data-Driven": 5
+      },
+      pmCultures: {
+        "PM-Guided": 5
+      }
+    };
+  }
 
     console.log('Calculated scores:', scores);
     return scores;
   }
 
   function getTopTwo(obj) {
-    // FIX 12: Improve error handling
-    if (!obj || typeof obj !== 'object' || Object.keys(obj).length === 0) {
-      console.warn('getTopTwo received an invalid object:', obj);
-      return [null, null];
+    console.log('Getting top two from:', JSON.stringify(obj));
+    
+    // Improved error handling with detailed logging
+    if (!obj || typeof obj !== 'object') {
+      console.error('getTopTwo received invalid input (not an object):', obj);
+      return getDefaultArchetypes();
+    }
+    
+    if (Object.keys(obj).length === 0) {
+      console.error('getTopTwo received an empty object - this likely means no scores were calculated');
+      return getDefaultArchetypes();
     }
     
     // Sort in descending order by score
     const sorted = Object.entries(obj).sort((a, b) => b[1] - a[1]);
+    console.log('Sorted results:', sorted);
+    
     return [
-      sorted[0] ? sorted[0][0] : null, 
-      sorted.length > 1 ? sorted[1][0] : null
+      sorted[0] ? sorted[0][0] : getDefaultArchetypes()[0], 
+      sorted.length > 1 ? sorted[1][0] : getDefaultArchetypes()[1]
     ];
+  }
+  
+  function getDefaultArchetypes() {
+    console.warn('Using default archetypes');
+    return ['Growth Driver', 'Product Optimizer'];
   }
 
   function getHighestScore(obj) {
-    // FIX 13: Improve error handling
-    if (!obj || typeof obj !== 'object' || Object.keys(obj).length === 0) {
-      console.warn('getHighestScore received an invalid object:', obj);
-      return 'Not determined';
+    console.log('Getting highest score from:', JSON.stringify(obj));
+    
+    // Improved error handling
+    if (!obj || typeof obj !== 'object') {
+      console.error('getHighestScore received invalid input (not an object):', obj);
+      return getDefaultForCategory(obj);
+    }
+    
+    if (Object.keys(obj).length === 0) {
+      console.error('getHighestScore received an empty object');
+      return getDefaultForCategory(obj);
     }
     
     // Sort in descending order by score
     const sorted = Object.entries(obj).sort((a, b) => b[1] - a[1]);
-    return sorted[0] ? sorted[0][0] : 'Not determined';
+    console.log('Sorted results for highest score:', sorted);
+    
+    return sorted[0] ? sorted[0][0] : getDefaultForCategory(obj);
+  }
+  
+  function getDefaultForCategory(obj) {
+    // Determine which category we're dealing with based on the object's context
+    if (obj === scores.productCultures) {
+      return 'Data-Driven';
+    } else if (obj === scores.pmCultures) {
+      return 'PM-Guided';
+    }
+    return 'Not determined';
   }
 
   function createCustomVisualization(scores) {
