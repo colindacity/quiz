@@ -1,16 +1,14 @@
+ * Product Leadership Archetype Quiz
+ * Enhanced version with improved functionality, error handling, and UI
+ */
+
 function initQuiz() {
-  // Helper function to safely call toLowerCase
-  function safeToLowerCase(str) {
-    if (str && typeof str === 'string') {
-      return str.toLowerCase();
-    }
-    return 'various';
-  }
-  
-  // Helper function for safe property access
-  function getSafeProperty(obj, propName, defaultValue) {
-    return (obj && obj[propName]) ? obj[propName] : defaultValue;
-  }
+  console.log("Quiz initialization started...");
+
+  // ==========================================
+  // QUIZ DATA CONFIGURATION
+  // ==========================================
+
   const quizData = [
     {
       question: "When working on a product, you excel at:",
@@ -104,7 +102,562 @@ function initQuiz() {
       ],
       type: "single"
     },
-    // Rest of quiz data remains the same
+    {
+      question: "In your product role, you're known for:",
+      options: [
+        {
+          text: "Creating innovative solutions to user problems",
+          scores: {
+            "UX Innovator": 2,
+            "Zero-to-One Innovator": 1,
+            "Design-Driven": 1
+          }
+        },
+        {
+          text: "Driving rapid user acquisition and retention",
+          scores: {
+            "Growth Driver": 2,
+            "Product Optimizer": 1,
+            "Data-Driven": 1
+          }
+        },
+        {
+          text: "Effectively managing stakeholders and resources",
+          scores: {
+            "General Manager": 2,
+            "Internal Scaler": 1,
+            "Sales-Driven": 1
+          }
+        },
+        {
+          text: "Solving complex technical challenges",
+          scores: {
+            "Technician": 2,
+            "Product Crafting": 1,
+            "Engineering-Driven": 1
+          }
+        },
+        {
+          text: "Successfully expanding products into new markets",
+          scores: {
+            "New Market-Fit Expander": 2,
+            "Growth Driver": 1,
+            "Product Crafting": 1
+          }
+        }
+      ],
+      type: "single"
+    },
+    {
+      question: "In your ideal product management role:",
+      options: [
+        {
+          text: "PMs have high influence regardless of their experience level",
+          scores: {
+            "PM-Dominated": 1,
+            "General Manager": 1,
+            "Vision-Driven": 1
+          }
+        },
+        {
+          text: "PM influence is based on demonstrated competence and merit",
+          scores: {
+            "PM-Guided": 1,
+            "Product Optimizer": 1,
+            "Data-Driven": 1
+          }
+        },
+        {
+          text: "PMs support decisions made by engineering or sales teams",
+          scores: {
+            "PM-Serviced": 1,
+            "Technician": 1,
+            "Engineering-Driven": 1
+          }
+        },
+        {
+          text: "PMs are key in identifying and adapting to new market opportunities",
+          scores: {
+            "New Market-Fit Expander": 1,
+            "Growth Driver": 1,
+            "Product Crafting": 1
+          }
+        }
+      ],
+      type: "single"
+    },
+    {
+      question: "You prefer working in an environment where:",
+      options: [
+        {
+          text: "Product Managers are the primary decision-makers",
+          scores: {
+            "PM-Dominated": 1,
+            "General Manager": 1,
+            "Vision-Driven": 1
+          }
+        },
+        {
+          text: "Decision-making is collaborative, with PMs as key influencers",
+          scores: {
+            "PM-Guided": 1,
+            "UX Innovator": 1,
+            "Design-Driven": 1
+          }
+        },
+        {
+          text: "PMs facilitate decisions made by other key stakeholders",
+          scores: {
+            "PM-Serviced": 1,
+            "Internal Scaler": 1,
+            "Sales-Driven": 1
+          }
+        },
+        {
+          text: "PMs drive product adaptation for diverse markets",
+          scores: {
+            "New Market-Fit Expander": 1,
+            "Growth Driver": 1,
+            "Product Crafting": 1
+          }
+        }
+      ],
+      type: "single"
+    },
+    {
+      question: "How comfortable are you with developing go-to-market strategies and pricing models?",
+      options: [
+        {
+          text: "Very comfortable",
+          scores: {
+            "General Manager": 2,
+            "Growth Driver": 1,
+            "Sales-Driven": 1
+          }
+        },
+        {
+          text: "Somewhat comfortable",
+          scores: {
+            "Product Optimizer": 2,
+            "Growth Driver": 1,
+            "Data-Driven": 1
+          }
+        },
+        {
+          text: "Not very comfortable",
+          scores: {
+            "UX Innovator": 1,
+            "Technician": 1,
+            "Design-Driven": 1
+          }
+        },
+        {
+          text: "Not comfortable at all",
+          scores: {
+            "Technician": 2,
+            "Internal Scaler": 1,
+            "Engineering-Driven": 1
+          }
+        },
+        {
+          text: "Comfortable, especially for new markets",
+          scores: {
+            "New Market-Fit Expander": 2,
+            "Growth Driver": 1,
+            "Product Crafting": 1
+          }
+        }
+      ],
+      type: "single"
+    },
+    {
+      question: "Which metric do you focus on the most in your current role?",
+      options: [
+        {
+          text: "User acquisition and retention rates",
+          scores: {
+            "Growth Driver": 2,
+            "Product Optimizer": 1,
+            "Data-Driven": 1
+          }
+        },
+        {
+          text: "User satisfaction and engagement scores",
+          scores: {
+            "UX Innovator": 2,
+            "Product Optimizer": 1,
+            "Design-Driven": 1
+          }
+        },
+        {
+          text: "Team productivity and time-to-market",
+          scores: {
+            "Internal Scaler": 2,
+            "General Manager": 1,
+            "Engineering-Driven": 1
+          }
+        },
+        {
+          text: "Revenue and profit margins",
+          scores: {
+            "General Manager": 2,
+            "Growth Driver": 1,
+            "Sales-Driven": 1
+          }
+        },
+        {
+          text: "System performance and reliability",
+          scores: {
+            "Technician": 2,
+            "Internal Scaler": 1,
+            "Engineering-Driven": 1
+          }
+        },
+        {
+          text: "Market disruption and category creation metrics",
+          scores: {
+            "Zero-to-One Innovator": 2,
+            "Growth Driver": 1,
+            "Vision-Driven": 1
+          }
+        },
+        {
+          text: "Market share in new regions or segments",
+          scores: {
+            "New Market-Fit Expander": 2,
+            "Growth Driver": 1,
+            "Product Crafting": 1
+          }
+        }
+      ],
+      type: "single"
+    },
+    {
+      question: "What's your biggest strength as a product leader?",
+      options: [
+        {
+          text: "Driving rapid user growth and engagement",
+          scores: {
+            "Growth Driver": 2,
+            "Product Optimizer": 1,
+            "Data-Driven": 1
+          }
+        },
+        {
+          text: "Creating intuitive and delightful user experiences",
+          scores: {
+            "UX Innovator": 2,
+            "Product Crafting": 1,
+            "Design-Driven": 1
+          }
+        },
+        {
+          text: "Improving organizational efficiency and collaboration",
+          scores: {
+            "Internal Scaler": 2,
+            "General Manager": 1,
+            "Engineering-Driven": 1
+          }
+        },
+        {
+          text: "Strategic planning and P&L management",
+          scores: {
+            "General Manager": 2,
+            "Growth Driver": 1,
+            "Sales-Driven": 1
+          }
+        },
+        {
+          text: "Continuously improving product quality and performance",
+          scores: {
+            "Product Optimizer": 2,
+            "Technician": 1,
+            "Data-Driven": 1
+          }
+        },
+        {
+          text: "Solving complex technical challenges",
+          scores: {
+            "Technician": 2,
+            "Product Crafting": 1,
+            "Engineering-Driven": 1
+          }
+        },
+        {
+          text: "Pioneering innovative products and features",
+          scores: {
+            "Zero-to-One Innovator": 2,
+            "UX Innovator": 1,
+            "Vision-Driven": 1
+          }
+        },
+        {
+          text: "Adapting products for diverse markets and cultures",
+          scores: {
+            "New Market-Fit Expander": 2,
+            "Growth Driver": 1,
+            "Product Crafting": 1
+          }
+        }
+      ],
+      type: "single"
+    },
+    {
+      question: "What type of company environment do you thrive in?",
+      options: [
+        {
+          text: "Companies with product-market fit, ready for rapid scaling",
+          scores: {
+            "Growth Driver": 2,
+            "Product Optimizer": 1,
+            "Data-Driven": 1
+          }
+        },
+        {
+          text: "Companies where product differentiation comes from superior user experience",
+          scores: {
+            "UX Innovator": 2,
+            "Product Crafting": 1,
+            "Design-Driven": 1
+          }
+        },
+        {
+          text: "Rapidly growing companies facing operational challenges",
+          scores: {
+            "Internal Scaler": 2,
+            "General Manager": 1,
+            "Engineering-Driven": 1
+          }
+        },
+        {
+          text: "Established companies with multiple product lines",
+          scores: {
+            "General Manager": 2,
+            "Product Optimizer": 1,
+            "Sales-Driven": 1
+          }
+        },
+        {
+          text: "Companies building technical products or platforms",
+          scores: {
+            "Technician": 2,
+            "Product Crafting": 1,
+            "Engineering-Driven": 1
+          }
+        },
+        {
+          text: "Startups, innovation-focused companies",
+          scores: {
+            "Zero-to-One Innovator": 2,
+            "Growth Driver": 1,
+            "Vision-Driven": 1
+          }
+        },
+        {
+          text: "Companies looking to expand into new markets or verticals",
+          scores: {
+            "New Market-Fit Expander": 2,
+            "Growth Driver": 1,
+            "Product Crafting": 1
+          }
+        }
+      ],
+      type: "single"
+    },
+    {
+      question: "When faced with a product challenge, which TWO of these do you typically prioritize? (Select 2)",
+      options: [
+        {
+          text: "Dive into data and analytics to find insights",
+          scores: {
+            "Growth Driver": 2,
+            "Product Optimizer": 1,
+            "Data-Driven": 1
+          }
+        },
+        {
+          text: "Talk to users and create prototypes",
+          scores: {
+            "UX Innovator": 2,
+            "Zero-to-One Innovator": 1,
+            "Design-Driven": 1
+          }
+        },
+        {
+          text: "Optimize internal processes to improve efficiency",
+          scores: {
+            "Internal Scaler": 2,
+            "General Manager": 1,
+            "Engineering-Driven": 1
+          }
+        },
+        {
+          text: "Develop a comprehensive business strategy",
+          scores: {
+            "General Manager": 2,
+            "Growth Driver": 1,
+            "Sales-Driven": 1
+          }
+        },
+        {
+          text: "Incrementally improve existing features",
+          scores: {
+            "Product Optimizer": 2,
+            "UX Innovator": 1,
+            "Data-Driven": 1
+          }
+        },
+        {
+          text: "Solve complex technical problems",
+          scores: {
+            "Technician": 2,
+            "Product Crafting": 1,
+            "Engineering-Driven": 1
+          }
+        },
+        {
+          text: "Brainstorm entirely new product ideas",
+          scores: {
+            "Zero-to-One Innovator": 2,
+            "UX Innovator": 1,
+            "Vision-Driven": 1
+          }
+        },
+        {
+          text: "Research market trends and cultural factors",
+          scores: {
+            "New Market-Fit Expander": 2,
+            "Growth Driver": 1,
+            "Product Crafting": 1
+          }
+        }
+      ],
+      type: "multi"
+    },
+    {
+      question: "Which TWO activities do you spend the most time on in your current role? (Select 2)",
+      options: [
+        {
+          text: "Analyzing user data and running experiments",
+          scores: {
+            "Growth Driver": 2,
+            "Product Optimizer": 1,
+            "Data-Driven": 1
+          }
+        },
+        {
+          text: "Conducting user research and designing interfaces",
+          scores: {
+            "UX Innovator": 2,
+            "Product Crafting": 1,
+            "Design-Driven": 1
+          }
+        },
+        {
+          text: "Improving team processes and workflows",
+          scores: {
+            "Internal Scaler": 2,
+            "General Manager": 1,
+            "Engineering-Driven": 1
+          }
+        },
+        {
+          text: "Strategic planning and stakeholder management",
+          scores: {
+            "General Manager": 2,
+            "Growth Driver": 1,
+            "Sales-Driven": 1
+          }
+        },
+        {
+          text: "Optimizing existing features and product performance",
+          scores: {
+            "Product Optimizer": 2,
+            "Technician": 1,
+            "Data-Driven": 1
+          }
+        },
+        {
+          text: "Working on technical architecture and integrations",
+          scores: {
+            "Technician": 2,
+            "Product Crafting": 1,
+            "Engineering-Driven": 1
+          }
+        },
+        {
+          text: "Conceptualizing and validating new product ideas",
+          scores: {
+            "Zero-to-One Innovator": 2,
+            "UX Innovator": 1,
+            "Vision-Driven": 1
+          }
+        },
+        {
+          text: "Researching and adapting products for new markets",
+          scores: {
+            "New Market-Fit Expander": 2,
+            "Growth Driver": 1,
+            "Product Crafting": 1
+          }
+        }
+      ],
+      type: "multi"
+    },
+    {
+      question: "In an ideal work environment, decisions are primarily based on:",
+      options: [
+        {
+          text: "Technical feasibility and engineering excellence",
+          scores: {
+            "Technician": 2,
+            "Internal Scaler": 1,
+            "Engineering-Driven": 1
+          }
+        },
+        {
+          text: "Data analysis and A/B test results",
+          scores: {
+            "Growth Driver": 2,
+            "Product Optimizer": 1,
+            "Data-Driven": 1
+          }
+        },
+        {
+          text: "User experience and design principles",
+          scores: {
+            "UX Innovator": 2,
+            "Product Crafting": 1,
+            "Design-Driven": 1
+          }
+        },
+        {
+          text: "Business strategy and market opportunities",
+          scores: {
+            "General Manager": 2,
+            "Growth Driver": 1,
+            "Sales-Driven": 1
+          }
+        },
+        {
+          text: "Long-term vision and transformative ideas",
+          scores: {
+            "Zero-to-One Innovator": 2,
+            "UX Innovator": 1,
+            "Vision-Driven": 1
+          }
+        },
+        {
+          text: "Market research and cultural insights",
+          scores: {
+            "New Market-Fit Expander": 2,
+            "Growth Driver": 1,
+            "Product Crafting": 1
+          }
+        }
+      ],
+      type: "single"
+    }
   ];
 
   const archetypeDescriptions = {
@@ -114,14 +667,14 @@ function initQuiz() {
       cons: ["May prioritize short-term gains over long-term strategy", "Can overlook product quality in favor of speed"],
       examples: [
         "Casey Winters (CPO, Eventbrite)",
-        "Elena Verna (Interim Head of Growth, Amplitude)",
+        "Elena Verna (Head of Growth, Amplitude)",
         "Brian Balfour (CEO, Reforge)"
       ]
     },
     "UX Innovator": {
-      description: "UX Innovators focus on creating intuitive and engaging user experiences, ensuring products are user-friendly and meet user needs.",
+      description: "UX Innovators focus on creating intuitive and engaging user experiences, ensuring products are user-friendly and meet user needs effectively.",
       pros: ["User-centric design", "Holistic thinking", "Strong user empathy", "Excellent problem-solving skills"],
-      cons: ["May overemphasize design at the expense of business goals", "Could struggle with scalability"],
+      cons: ["May overemphasize design at the expense of business goals", "Could struggle with scalability challenges"],
       examples: [
         "Alex Hood (CPO, Asana)",
         "Rahul Vohra (Founder and CEO, Superhuman)",
@@ -130,8 +683,8 @@ function initQuiz() {
     },
     "Internal Scaler": {
       description: "Internal Scalers focus on optimizing internal processes, improving cross-functional collaboration, and scaling operations to support product development.",
-      pros: ["Process optimization", "Cross-functional collaboration", "Scalability", "Team productivity"],
-      cons: ["May focus too much on internal efficiency over external customer needs", "Can be resistant to change"],
+      pros: ["Process optimization", "Cross-functional collaboration", "Scalability expertise", "Team productivity enhancement"],
+      cons: ["May focus too much on internal efficiency over external customer needs", "Can be resistant to disruptive change"],
       examples: [
         "Gibson Biddle (Former VP of Product Management, Netflix)",
         "Jackie Bavaro (Former Head of Product Management, Asana)",
@@ -140,8 +693,8 @@ function initQuiz() {
     },
     "General Manager": {
       description: "General Managers oversee the entire product strategy, balancing business goals with product development, and often have P&L responsibility.",
-      pros: ["Strategic thinking", "Leadership", "P&L management", "Cross-functional alignment"],
-      cons: ["May lack deep expertise in specific areas", "Can be too removed from day-to-day product development"],
+      pros: ["Strategic thinking", "Leadership capabilities", "P&L management", "Cross-functional alignment"],
+      cons: ["May lack deep expertise in specific technical areas", "Can be too removed from day-to-day product development"],
       examples: [
         "Ravi Mehta (Former CPO, Tinder)",
         "Lenny Rachitsky (Former Product Lead, Airbnb)",
@@ -150,8 +703,8 @@ function initQuiz() {
     },
     "Product Optimizer": {
       description: "Product Optimizers focus on refining and improving existing products through iterative development, user feedback, and data-driven enhancements.",
-      pros: ["Iterative development", "User feedback integration", "Incremental improvements", "Data-driven decisions"],
-      cons: ["May struggle with big-picture thinking", "Can be overly focused on existing products"],
+      pros: ["Iterative development mastery", "User feedback integration", "Incremental improvements", "Data-driven decisions"],
+      cons: ["May struggle with big-picture strategic thinking", "Can be overly focused on existing products rather than innovation"],
       examples: [
         "Ken Norton (Former Partner, Google Ventures)",
         "Teresa Torres (Product Discovery Coach, Product Talk)",
@@ -160,8 +713,8 @@ function initQuiz() {
     },
     "Technician": {
       description: "Technicians are deeply technical leaders who focus on complex product architectures, scalability, and integration of new technologies.",
-      pros: ["Technical expertise", "Scalability", "System architecture", "Integration"],
-      cons: ["May focus too much on technology over user experience", "Can struggle with non-technical stakeholders"],
+      pros: ["Technical expertise", "Scalability solutions", "System architecture", "Technology integration"],
+      cons: ["May focus too much on technology over user experience", "Can struggle communicating with non-technical stakeholders"],
       examples: [
         "Adam Nash (Former VP of Product Management, LinkedIn)",
         "Jeff Dean (Senior Fellow and SVP of Google Research, Google)",
@@ -170,8 +723,8 @@ function initQuiz() {
     },
     "Zero-to-One Innovator": {
       description: "Zero-to-One Innovators excel at creating entirely new products or entering new markets, often working in high ambiguity and with a visionary approach.",
-      pros: ["Visionary thinking", "Market creation", "Innovation", "High tolerance for risk"],
-      cons: ["May struggle with execution", "Can overlook operational challenges"],
+      pros: ["Visionary thinking", "Market creation", "Breakthrough innovation", "High tolerance for risk and ambiguity"],
+      cons: ["May struggle with execution details", "Can overlook operational challenges in favor of vision"],
       examples: [
         "David Cancel (CEO and Founder, Drift)",
         "Gagan Biyani (CEO and Co-Founder, Maven)",
@@ -180,8 +733,8 @@ function initQuiz() {
     },
     "New Market-Fit Expander": {
       description: "New Market-Fit Expanders excel at adapting existing products for new markets, whether geographical or different market segments.",
-      pros: ["Market research", "Adaptability", "Cultural sensitivity", "Localization"],
-      cons: ["May struggle with creating new products", "Can over-adapt and dilute core product"],
+      pros: ["Market research expertise", "Cultural adaptability", "Localization skills", "Cross-market insights"],
+      cons: ["May struggle with creating entirely new products", "Can over-adapt and dilute core product value"],
       examples: [
         "Neil Hunt (Former CPO, Netflix)",
         "April Underwood (Former CPO, Slack)",
@@ -191,8 +744,8 @@ function initQuiz() {
   };
 
   const superpowerDescriptions = {
-    "Product Crafting": "have the ability to transform abstract concepts into tangible, user-friendly features. You excel at understanding user needs and creating innovative solutions.",
-    "Growth Expertise": "have the skill to identify and optimize key metrics to drive rapid user acquisition and engagement. You're adept at data analysis and growth strategies.",
+    "Product Crafting": "have the ability to transform abstract concepts into tangible, user-friendly features. You excel at understanding user needs and creating innovative solutions that resonate with users.",
+    "Growth Expertise": "have the skill to identify and optimize key metrics to drive rapid user acquisition and engagement. You're adept at data analysis and implementing effective growth strategies.",
     "Organizational Expertise": "have the talent for managing complex projects and aligning diverse teams. You excel at improving efficiency and collaboration across the organization.",
     "Team Expertise": "have the strength in building and leading high-performing product teams. You're skilled at mentoring, fostering a positive culture, and bringing out the best in others."
   };
@@ -255,8 +808,60 @@ function initQuiz() {
     "Team Expertise": "Build and mentor high-performing product teams that consistently exceed performance benchmarks"
   };
 
+  const companyRecommendations = {
+    "Growth Driver": ["Uber", "Airbnb", "Pinterest", "TikTok", "Dropbox"],
+    "UX Innovator": ["Apple", "Figma", "Slack", "Notion", "Canva"],
+    "Internal Scaler": ["Amazon", "Google", "Microsoft", "Salesforce", "Oracle"],
+    "General Manager": ["Salesforce", "Oracle", "Adobe", "Microsoft", "IBM"],
+    "Product Optimizer": ["Booking.com", "Netflix", "Spotify", "LinkedIn", "Twitter"],
+    "Technician": ["Tesla", "SpaceX", "NVIDIA", "Cloudflare", "Stripe"],
+    "Zero-to-One Innovator": ["Stripe", "Palantir", "Snowflake", "OpenAI", "Anthropic"],
+    "New Market-Fit Expander": ["Airbnb", "Netflix", "Uber", "Shopify", "Slack"]
+  };
+
+  // ==========================================
+  // STATE VARIABLES
+  // ==========================================
+
   let currentQuestionIndex = 0;
   let userResponses = [];
+  let nextButton;
+  let loadingResults = false;
+
+  // ==========================================
+  // UTILITY FUNCTIONS
+  // ==========================================
+
+  // Helper function to safely convert strings to lowercase
+  function safeToLowerCase(str) {
+    if (str && typeof str === 'string') {
+      return str.toLowerCase();
+    }
+    return 'various';
+  }
+  
+  // Helper function for safe property access
+  function getSafeProperty(obj, propName, defaultValue) {
+    return (obj && obj[propName]) ? obj[propName] : defaultValue;
+  }
+
+  // Helper function to get pros string safely
+  function getProsString(archetype) {
+    if (!archetype) return 'strategic thinking';
+    
+    const archetypeObj = getSafeProperty(archetypeDescriptions, archetype, {});
+    const pros = getSafeProperty(archetypeObj, 'pros', []);
+    return pros.length > 0 ? safeToLowerCase(pros[0]) : 'various strengths';
+  }
+
+  // Helper function to log debug information
+  function logDebug(message, data) {
+    console.log(`[Product Quiz] ${message}`, data || '');
+  }
+
+  // ==========================================
+  // DOM ELEMENT ACCESS
+  // ==========================================
 
   const quizContainer = document.getElementById('quiz');
   const questionTitle = document.getElementById('question-title');
@@ -264,10 +869,35 @@ function initQuiz() {
   const profileSummary = document.getElementById('profile-summary');
   const progressBar = document.getElementById('progress');
   const backArrow = document.getElementById('back-arrow');
-  let nextButton;
-  let resultData;
 
-  // FIX 1: Make sure we create the next button only once
+  // Check if required elements exist
+  function verifyRequiredElements() {
+    const elements = {
+      quizContainer,
+      questionTitle,
+      resultsContainer,
+      profileSummary,
+      progressBar,
+      backArrow
+    };
+    
+    const missingElements = Object.entries(elements)
+      .filter(([name, element]) => !element)
+      .map(([name]) => name);
+    
+    if (missingElements.length > 0) {
+      console.error(`Missing required DOM elements: ${missingElements.join(', ')}`);
+      return false;
+    }
+    
+    return true;
+  }
+
+  // ==========================================
+  // NAVIGATION & UI FUNCTIONS
+  // ==========================================
+
+  // Create or ensure next button exists
   function ensureNextButtonExists() {
     if (!nextButton) {
       nextButton = document.createElement('button');
@@ -277,62 +907,131 @@ function initQuiz() {
       nextButton.style.display = 'none';
       nextButton.style.width = '100%';
       nextButton.style.marginTop = '20px';
-      nextButton.addEventListener('click', () => {
-        currentQuestionIndex++;
-        showQuestion(currentQuestionIndex);
-      });
+      nextButton.addEventListener('click', goToNextQuestion);
       
-      // FIX 2: Make sure parent exists before appending
       if (quizContainer && quizContainer.parentNode) {
         quizContainer.parentNode.insertBefore(nextButton, quizContainer.nextSibling);
+      } else {
+        logDebug('Cannot add next button - parent container not found');
       }
     }
     return nextButton;
   }
 
-  function showQuestion(index) {
-    console.log(`Showing question ${index+1} of ${quizData.length}`);
+  // Show loading state
+  function showLoading() {
+    if (resultsContainer) {
+      resultsContainer.innerHTML = `
+        <div class="loading">
+          <p>Analyzing your responses...</p>
+          <div class="loading-spinner"></div>
+        </div>
+      `;
+      resultsContainer.style.display = 'block';
+    }
+  }
+
+  // Update progress bar
+  function updateProgressBar() {
+    if (!progressBar) return;
     
+    const progress = ((currentQuestionIndex + 1) / quizData.length) * 100;
+    progressBar.style.width = `${progress}%`;
+    
+    // Add aria attributes for accessibility
+    progressBar.setAttribute('aria-valuenow', currentQuestionIndex + 1);
+    progressBar.setAttribute('aria-valuemax', quizData.length);
+  }
+
+  // Go to the next question
+  function goToNextQuestion() {
+    currentQuestionIndex++;
+    showQuestion(currentQuestionIndex);
+  }
+
+  // Go to the previous question
+  function goToPreviousQuestion() {
+    if (currentQuestionIndex > 0) {
+      currentQuestionIndex--;
+      showQuestion(currentQuestionIndex);
+    }
+  }
+
+  // ==========================================
+  // QUESTION DISPLAY & INTERACTION
+  // ==========================================
+
+  // Display current question
+  function showQuestion(index) {
+    logDebug(`Showing question ${index+1} of ${quizData.length}`);
+    
+    // Check if we've gone through all questions
     if (index >= quizData.length) {
-      console.log(`All ${quizData.length} questions completed, showing results`);
-      showResults();
+      logDebug(`All ${quizData.length} questions completed, showing results`);
+      loadingResults = true;
+      showLoading();
+      // Use setTimeout to allow loading state to render
+      setTimeout(showResults, 500);
       return;
     }
 
-    // FIX 3: Check if elements exist before manipulating them
+    // Hide results, show quiz
     if (resultsContainer) resultsContainer.style.display = 'none';
     if (quizContainer) quizContainer.style.display = 'block';
     if (questionTitle) questionTitle.style.display = 'block';
-    if (backArrow) backArrow.style.display = index === 0 ? 'none' : 'block';
+    
+    // Show/hide back arrow
+    if (backArrow) {
+      backArrow.style.display = index === 0 ? 'none' : 'block';
+      backArrow.setAttribute('aria-label', 'Go back to previous question');
+    }
 
     if (!quizContainer) {
-      console.error('Quiz container not found');
+      logDebug('Quiz container not found', 'error');
       return;
     }
 
+    // Get the current question
     const question = quizData[index];
-    console.log(`Current question: "${question.question}"`);
+    logDebug(`Current question: "${question.question}"`);
     
-    if (questionTitle) questionTitle.textContent = question.question;
+    // Set the question text
+    if (questionTitle) {
+      questionTitle.textContent = question.question;
+      // Add multi-select instruction if needed
+      if (question.type === 'multi') {
+        const instructionSpan = document.createElement('span');
+        instructionSpan.className = 'selection-instruction';
+        instructionSpan.textContent = ' (Select 2)';
+        questionTitle.appendChild(instructionSpan);
+      }
+    }
+    
     quizContainer.innerHTML = '';
 
+    // Create option buttons
     question.options.forEach((option, optionIndex) => {
       const button = document.createElement('button');
       button.classList.add('option');
+      button.setAttribute('role', 'option');
+      button.setAttribute('aria-selected', 'false');
       button.innerHTML = `<span>${option.text}</span>`;
       button.addEventListener('click', () => selectOption(optionIndex, question.type));
 
       // Show previously selected options
       if (userResponses[index] && userResponses[index].includes(optionIndex)) {
         button.classList.add('selected');
-        console.log(`Option ${optionIndex} is pre-selected: "${option.text}"`);
+        button.setAttribute('aria-selected', 'true');
+        logDebug(`Option ${optionIndex} is pre-selected: "${option.text}"`);
       }
 
       quizContainer.appendChild(button);
     });
 
+    // Update the progress bar
     updateProgressBar();
 
+    // Handle the next button for multi-choice questions
     const btn = ensureNextButtonExists();
     btn.style.display = question.type === 'multi' ? 'block' : 'none';
     
@@ -340,398 +1039,96 @@ function initQuiz() {
     if (question.type === 'multi') {
       const hasEnoughSelections = userResponses[index] && userResponses[index].length === 2;
       btn.disabled = !hasEnoughSelections;
-      console.log(`Next button for multi-choice question is ${btn.disabled ? 'disabled' : 'enabled'}`);
-      console.log(`Current selections: ${userResponses[index] ? userResponses[index].length : 0}/2`);
+      btn.setAttribute('aria-disabled', !hasEnoughSelections);
+      logDebug(`Next button for multi-choice question is ${btn.disabled ? 'disabled' : 'enabled'}`);
+      logDebug(`Current selections: ${userResponses[index] ? userResponses[index].length : 0}/2`);
     }
   }
 
+  // Handle option selection
   function selectOption(optionIndex, questionType) {
-    console.log(`Selecting option ${optionIndex} for question ${currentQuestionIndex+1} (type: ${questionType})`);
+    logDebug(`Selecting option ${optionIndex} for question ${currentQuestionIndex+1} (type: ${questionType})`);
     
-    const options = document.querySelectorAll('.option');
+    const options = quizContainer.querySelectorAll('.option');
     if (!options || !options.length) {
-      console.error('No options found in selectOption');
+      logDebug('No options found in selectOption', 'error');
       return;
     }
 
     if (questionType === 'single') {
+      // Single choice question - select one option and move on
       options.forEach((opt, index) => {
-        opt.classList.toggle('selected', index === optionIndex);
+        const isSelected = index === optionIndex;
+        opt.classList.toggle('selected', isSelected);
+        opt.setAttribute('aria-selected', isSelected);
       });
-      userResponses[currentQuestionIndex] = [optionIndex];
-      console.log(`Set response for question ${currentQuestionIndex+1} to: [${optionIndex}]`);
       
+      userResponses[currentQuestionIndex] = [optionIndex];
+      logDebug(`Set response for question ${currentQuestionIndex+1} to: [${optionIndex}]`);
+      
+      // Add selection animation
+      options[optionIndex].classList.add('pulse-animation');
+      
+      // Move to the next question after a short delay
       setTimeout(() => {
-        currentQuestionIndex++;
-        showQuestion(currentQuestionIndex);
+        goToNextQuestion();
       }, 300);
+      
     } else if (questionType === 'multi') {
-      // FIX 4: Ensure we have a proper array for multi-select
+      // Multi choice question - select up to 2 options
       const selectedOptions = userResponses[currentQuestionIndex] || [];
 
       if (selectedOptions.includes(optionIndex)) {
+        // Deselect if already selected
         options[optionIndex].classList.remove('selected');
+        options[optionIndex].setAttribute('aria-selected', 'false');
         selectedOptions.splice(selectedOptions.indexOf(optionIndex), 1);
       } else if (selectedOptions.length < 2) {
+        // Select if we haven't already selected 2 options
         options[optionIndex].classList.add('selected');
+        options[optionIndex].classList.add('pulse-animation');
+        options[optionIndex].setAttribute('aria-selected', 'true');
         selectedOptions.push(optionIndex);
-      }
-
-      userResponses[currentQuestionIndex] = selectedOptions;
-      console.log(`Updated response for question ${currentQuestionIndex+1} to: [${selectedOptions}]`);
-      
-      const btn = ensureNextButtonExists();
-      if (btn) btn.disabled = selectedOptions.length !== 2;
-      console.log(`Next button disabled: ${selectedOptions.length !== 2} (selected: ${selectedOptions.length}/2)`);
-    }
-  }
-
-  function updateProgressBar() {
-    if (!progressBar) return;
-    const progress = ((currentQuestionIndex + 1) / quizData.length) * 100;
-    progressBar.style.width = `${progress}%`;
-  }
-
-  function submitQuizData(data) {
-    // FIX 5: Add error checking for quiz data
-    if (!data || !data.responses) {
-      console.error('Invalid quiz data for submission');
-      return;
-    }
-
-    const formattedResponses = data.responses.map((response, index) => {
-      if (!response || !quizData[index]) return `Q${index + 1}: No answer`;
-      
-      const question = quizData[index];
-      const selectedOptions = response.map(optionIndex => {
-        if (question.options[optionIndex]) {
-          return question.options[optionIndex].text;
-        }
-        return "Unknown option";
-      });
-      
-      return `Q${index + 1}: ${selectedOptions.join(', ')}`;
-    }).join(' | ');
-
-    const formattedData = {
-      primaryArchetype: data.primaryArchetype || 'Unknown',
-      secondaryArchetype: data.secondaryArchetype || 'None',
-      primarySuperpower: data.primarySuperpower || 'Unknown',
-      secondarySuperpower: data.secondarySuperpower || 'None',
-      productCulture: data.productCulture || 'Unknown',
-      pmCulture: data.pmCulture || 'Unknown',
-      responses: formattedResponses
-    };
-
-    console.log('Submitting quiz data:', formattedData);
-
-    // Attempt to submit to Zapier webhook
-    fetch('https://hooks.zapier.com/hooks/catch/1229764/24rotzb/', {
-      method: 'POST',
-      body: JSON.stringify(formattedData),
-    })
-    .then(response => {
-      if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
-      }
-      return response.text();
-    })
-    .then(text => {
-      try {
-        return JSON.parse(text);
-      } catch (e) {
-        console.log('Response is not JSON:', text);
-        return text;
-      }
-    })
-    .then(data => console.log('Success:', data))
-    .catch((error) => {
-      console.error('Error submitting quiz data:', error.message);
-      if (resultsContainer) {
-        const errorMessage = document.createElement('p');
-        errorMessage.textContent = `There was an error submitting your results: ${error.message}. Your local results are still displayed above.`;
-        errorMessage.style.color = 'red';
-        resultsContainer.appendChild(errorMessage);
-      }
-    });
-  }
-
-  function showResults() {
-    try {
-      console.log('------- SHOW RESULTS START -------');
-      console.log('User responses collected:', JSON.stringify(userResponses));
-      
-      // Check if all questions have responses
-      const unansweredQuestions = [];
-      for (let i = 0; i < quizData.length; i++) {
-        if (!userResponses[i] || (quizData[i].type === 'multi' && userResponses[i].length !== 2)) {
-          unansweredQuestions.push(i + 1);
-        }
-      }
-      
-      if (unansweredQuestions.length > 0) {
-        console.warn(`Warning: Questions ${unansweredQuestions.join(', ')} are unanswered or incomplete`);
-      }
-      
-      // Debug what elements we have
-      console.log('Quiz elements exist:', {
-        quizContainer: !!quizContainer,
-        questionTitle: !!questionTitle,
-        resultsContainer: !!resultsContainer,
-        profileSummary: !!profileSummary
-      });
-      
-      if (!quizContainer || !questionTitle || !resultsContainer || !profileSummary) {
-        console.error('Required DOM elements missing for results display');
-        if (resultsContainer) {
-          resultsContainer.innerHTML = '<p>An error occurred while displaying your results. Please try again.</p>';
-          resultsContainer.style.display = 'block';
-        }
-        return;
-      }
-
-      quizContainer.style.display = 'none';
-      questionTitle.style.display = 'none';
-      resultsContainer.style.display = 'block';
-      if (nextButton) nextButton.style.display = 'none';
-      if (backArrow) backArrow.style.display = 'block';
-
-      // FIX 6: Add better error handling for score calculation
-      let scores;
-      try {
-        scores = calculateScores();
-        console.log('Final calculated scores:', JSON.stringify(scores));
-      } catch (err) {
-        console.error('Error calculating scores:', err);
-        resultsContainer.innerHTML = '<p>An error occurred while calculating your results. Please try again.</p>';
-        resultsContainer.style.display = 'block';
-        return;
-      }
-
-      if (!scores) {
-        console.error('Scores object is undefined');
-        resultsContainer.innerHTML = '<p>An error occurred while calculating your results. Please try again.</p>';
-        resultsContainer.style.display = 'block';
-        return;
-      }
-      
-      if (!scores.archetypes || Object.keys(scores.archetypes).length === 0) {
-        console.error('No archetype scores were calculated');
-        scores = getDefaultScores();
-        console.log('Using default scores instead:', JSON.stringify(scores));
-      }
-
-      // FIX 7: Handle edge cases in getTopTwo
-      const [primaryArchetype, secondaryArchetype] = getTopTwo(scores.archetypes);
-      const [primarySuperpower, secondarySuperpower] = getTopTwo(scores.superpowers);
-      const productCulture = getHighestScore(scores.productCultures);
-      const pmCulture = getHighestScore(scores.pmCultures);
-
-      if (!primaryArchetype) {
-        console.error('Could not determine primary archetype');
-        resultsContainer.innerHTML = '<p>An error occurred while analyzing your results. Please try again.</p>';
-        return;
-      }
-
-      const companyRecommendations = {
-        "Growth Driver": ["Uber", "Airbnb", "Pinterest"],
-        "UX Innovator": ["Apple", "Figma", "Slack"],
-        "Internal Scaler": ["Amazon", "Google", "Microsoft"],
-        "General Manager": ["Salesforce", "Oracle", "Adobe"],
-        "Product Optimizer": ["Booking.com", "Netflix", "Spotify"],
-        "Technician": ["Tesla", "SpaceX", "NVIDIA"],
-        "Zero-to-One Innovator": ["Stripe", "Palantir", "Snowflake"],
-        "New Market-Fit Expander": ["Airbnb", "Netflix", "Uber"]
-      };
-
-      // FIX 8: Add checks for archetypeDescriptions
-      if (!archetypeDescriptions[primaryArchetype]) {
-        console.error(`Missing description for ${primaryArchetype}`);
-        resultsContainer.innerHTML = '<p>An error occurred with the archetype descriptions. Please try again.</p>';
-        return;
-      }
-
-      // FIX 9: Safely access description properties
-      const getProsString = (archetype) => {
-        if (!archetypeDescriptions[archetype] || !archetypeDescriptions[archetype].pros) {
-          return 'various strengths';
-        }
-        return archetypeDescriptions[archetype].pros.length > 0 ? 
-          archetypeDescriptions[archetype].pros[0].toLowerCase() : 'various strengths';
-      };
-
-      let summaryHTML = `
-        <div class="result-section">
-          <h3>Your Product Leadership Profile</h3>
-          <p>Your results indicate that you are primarily a ${icons[primaryArchetype] || ''} <strong>${primaryArchetype}-style</strong> product leader`;
-      
-      if (secondaryArchetype) {
-        summaryHTML += ` with elements of a ${icons[secondaryArchetype] || ''} <strong>${secondaryArchetype}</strong>`;
-      }
-      
-      summaryHTML += `. This combination suggests that you excel in ${getProsString(primaryArchetype)}`;
-      
-      if (archetypeDescriptions[primaryArchetype] && archetypeDescriptions[primaryArchetype].pros && archetypeDescriptions[primaryArchetype].pros.length > 1) {
-        summaryHTML += ` and ${archetypeDescriptions[primaryArchetype].pros[1].toLowerCase()}`;
-      }
-      
-      if (secondaryArchetype && archetypeDescriptions[secondaryArchetype]) {
-        summaryHTML += `, while also demonstrating strengths in ${getProsString(secondaryArchetype)}`;
-        
-        if (archetypeDescriptions[secondaryArchetype].pros && archetypeDescriptions[secondaryArchetype].pros.length > 1) {
-          summaryHTML += ` and ${archetypeDescriptions[secondaryArchetype].pros[1].toLowerCase()}`;
-        }
-      }
-      
-      summaryHTML += `. Your key superpower lies in ${icons[primarySuperpower] || ''} <strong>${primarySuperpower}</strong>`;
-      
-      if (superpowerDescriptions[primarySuperpower]) {
-        summaryHTML += `, which means you ${superpowerDescriptions[primarySuperpower]}`;
-      }
-      
-      summaryHTML += ` You have thrived in <strong>${productCulture}</strong> organizations with a <strong>${pmCulture}</strong> approach to product management.</p>
-        </div>
-        <div class="result-section">
-          <div class="archetype-header">
-            <h4>Primary Archetype: ${primaryArchetype}</h4>
-            ${icons[primaryArchetype] || ''}
-          </div>`;
-      
-      if (archetypeDescriptions[primaryArchetype]) {
-        summaryHTML += `<p>${archetypeDescriptions[primaryArchetype].description || 'No description available.'}</p>
-          <div class="pros-cons">
-            <div class="pros">
-              <b>Strengths:</b>
-              <ul>
-                ${(archetypeDescriptions[primaryArchetype].pros || []).map(pro => `<li>${pro}</li>`).join('') || '<li>No strengths specified</li>'}
-              </ul>
-            </div>
-            <div class="cons">
-              <b>Potential Challenges:</b>
-              <ul>
-                ${(archetypeDescriptions[primaryArchetype].cons || []).map(con => `<li>${con}</li>`).join('') || '<li>No challenges specified</li>'}
-              </ul>
-            </div>
-          </div>
-          <p><strong>Examples:</strong> ${(archetypeDescriptions[primaryArchetype].examples || []).join(', ') || 'No examples available'}</p>`;
       } else {
-        summaryHTML += `<p>Detailed information for ${primaryArchetype} is not available.</p>`;
+        // Give feedback that 2 are already selected
+        options[optionIndex].classList.add('shake-animation');
+        setTimeout(() => {
+          options[optionIndex].classList.remove('shake-animation');
+        }, 500);
+      }
+
+      // Update the responses
+      userResponses[currentQuestionIndex] = selectedOptions;
+      logDebug(`Updated response for question ${currentQuestionIndex+1} to: [${selectedOptions}]`);
+      
+      // Enable/disable the next button based on whether 2 options are selected
+      const btn = ensureNextButtonExists();
+      if (btn) {
+        btn.disabled = selectedOptions.length !== 2;
+        btn.setAttribute('aria-disabled', selectedOptions.length !== 2);
       }
       
-      summaryHTML += `</div>
-        <div id="data-visualization"></div>`;
-
-      if (secondaryArchetype && archetypeDescriptions[secondaryArchetype]) {
-        summaryHTML += `
-          <div class="result-section">
-            <div class="archetype-header">
-              <h4>Secondary Archetype: ${secondaryArchetype}</h4>
-              ${icons[secondaryArchetype] || ''}
-            </div>
-            <p>${archetypeDescriptions[secondaryArchetype].description || 'No description available.'}</p>
-            <div class="pros-cons">
-              <div class="pros">
-                <b>Strengths:</b>
-                <ul>
-                  ${(archetypeDescriptions[secondaryArchetype].pros || []).map(pro => `<li>${pro}</li>`).join('') || '<li>No strengths specified</li>'}
-                </ul>
-              </div>
-              <div class="cons">
-                <b>Potential Challenges:</b>
-                <ul>
-                  ${(archetypeDescriptions[secondaryArchetype].cons || []).map(con => `<li>${con}</li>`).join('') || '<li>No challenges specified</li>'}
-                </ul>
-              </div>
-            </div>
-            <p><strong>Examples:</strong> ${(archetypeDescriptions[secondaryArchetype].examples || []).join(', ') || 'No examples available'}</p>
-          </div>
-        `;
-      }
-
-      if (primarySuperpower && superpowerDescriptions[primarySuperpower]) {
-        summaryHTML += `
-          <div class="result-section">
-            <h4>Superpowers</h4>
-            <div class="superpower-header">
-              <h5>Primary Superpower: ${primarySuperpower}</h5>
-              ${icons[primarySuperpower] || ''}
-            </div>
-            <p>${superpowerDescriptions[primarySuperpower] || 'No description available.'}</p>`;
-        
-        if (secondarySuperpower && superpowerDescriptions[secondarySuperpower]) {
-          summaryHTML += `
-            <div class="superpower-header">
-              <h5>Secondary Superpower: ${secondarySuperpower}</h5>
-              ${icons[secondarySuperpower] || ''}
-            </div>
-            <p>${superpowerDescriptions[secondarySuperpower] || 'No description available.'}</p>`;
-        }
-        
-        summaryHTML += `</div>`;
-      }
-
-      summaryHTML += `
-        <div class="result-section environment-section">
-          <h4>Preferred Environment</h4>
-          <p><strong>Product Culture (${productCulture}):</strong> ${productCultureDescriptions[productCulture] || 'No description available.'}</p>
-          <h4>Product Decision-Making</h4>
-          <p><strong>${pmCulture}:</strong> ${pmCultureDescriptions[pmCulture] || 'No description available.'}</p>
-        </div>
-        <div class="result-section">
-          <h4>Career Opportunities</h4>
-          <p>Given your ${primaryArchetype} archetype and ${primarySuperpower} superpower, you might excel in roles such as Senior Product Manager, Director of Product, or VP of Product in companies that value ${productCulture.toLowerCase()} and ${pmCulture.toLowerCase()} approaches. These roles would allow you to leverage your ${getProsString(primaryArchetype)} and ability to ${superpowerDescriptions[primarySuperpower] ? superpowerDescriptions[primarySuperpower].toLowerCase() : 'apply your unique skills'}</p>
-          <p>Some companies that might be a good fit include:</p>
-          <ul>
-            ${(companyRecommendations[primaryArchetype] || ['No specific recommendations available']).map(company => `<li>${company}</li>`).join('')}
-          </ul>
-          <p>Remember, these are just suggestions. Your unique combination of skills and experiences might make you a great fit for a wide range of roles and companies.</p>
-        </div>
-        <div class="result-section">
-          <h4>How to Present Yourself</h4>
-          <p>When introducing yourself or writing your resume, emphasize your unique combination of ${primaryArchetype} strategies and ${primarySuperpower} skills. For example:</p>
-          <ul>
-            <li>${archetypeStrengths[primaryArchetype] || 'Use your product leadership experience to highlight your expertise'}</li>
-            <li>${archetypeAchievements[primaryArchetype] || 'Showcase specific achievements that demonstrate your impact'}</li>
-            <li>${superpowerActions[primarySuperpower] || 'Leverage your special abilities in your next role'}</li>
-          </ul>
-        </div>
-      `;
-
-      profileSummary.innerHTML = summaryHTML;
-
-      // FIX 10: Add try/catch around visualization
-      try {
-        createCustomVisualization(scores);
-      } catch (err) {
-        console.error('Error creating visualization:', err);
-        const vizContainer = document.getElementById('data-visualization');
-        if (vizContainer) {
-          vizContainer.innerHTML = '<p>Unable to generate the visualization. Please try again.</p>';
-        }
-      }
-
-      submitQuizData({
-        primaryArchetype,
-        secondaryArchetype,
-        primarySuperpower,
-        secondarySuperpower,
-        productCulture,
-        pmCulture,
-        responses: userResponses
-      });
-
-    } catch (error) {
-      console.error('Error in showResults:', error);
-      if (resultsContainer) {
-        resultsContainer.innerHTML = '<p>An error occurred while calculating your results. Please try again.</p>';
-      }
+      logDebug(`Next button ${btn.disabled ? 'disabled' : 'enabled'} (selected: ${selectedOptions.length}/2)`);
     }
+    
+    // Remove animation classes after they complete
+    setTimeout(() => {
+      options.forEach(opt => {
+        opt.classList.remove('pulse-animation');
+      });
+    }, 500);
   }
 
+  // ==========================================
+  // SCORING & RESULTS CALCULATION
+  // ==========================================
+
+  // Calculate scores based on user responses
   function calculateScores() {
-    console.log('------- SCORE CALCULATION START -------');
-    console.log('User responses:', JSON.stringify(userResponses));
+    logDebug('------- SCORE CALCULATION START -------');
+    logDebug('User responses:', JSON.stringify(userResponses));
     
+    // Initialize scores object
     const scores = {
       archetypes: {},
       superpowers: {},
@@ -739,113 +1136,123 @@ function initQuiz() {
       pmCultures: {}
     };
 
-    // Add validation and detailed logging
+    // Validate user responses
     if (!userResponses || !Array.isArray(userResponses)) {
-      console.error('User responses is not an array:', userResponses);
+      logDebug('User responses is not an array', 'error');
       return getDefaultScores();
     }
     
     if (userResponses.length === 0) {
-      console.error('User responses array is empty');
+      logDebug('User responses array is empty', 'error');
       return getDefaultScores();
     }
     
-    // Log whether each response exists
-    userResponses.forEach((response, index) => {
-      console.log(`Question ${index+1} response:`, response ? JSON.stringify(response) : 'missing');
-    });
-
-    // Check for archetypes in description object
-    console.log('Available archetypes:', Object.keys(archetypeDescriptions));
-    console.log('Available superpowers:', Object.keys(superpowerDescriptions));
-    console.log('Available product cultures:', Object.keys(productCultureDescriptions));
-    console.log('Available PM cultures:', Object.keys(pmCultureDescriptions));
-
+    // Check for unanswered questions
+    const unansweredQuestions = [];
+    for (let i = 0; i < quizData.length; i++) {
+      if (!userResponses[i] || !userResponses[i].length || 
+          (quizData[i].type === 'multi' && userResponses[i].length !== 2)) {
+        unansweredQuestions.push(i + 1);
+      }
+    }
+    
+    if (unansweredQuestions.length > 0) {
+      logDebug(`Warning: Questions ${unansweredQuestions.join(', ')} are unanswered or incomplete`, 'warn');
+    }
+    
     // Process each response and calculate scores
     userResponses.forEach((response, index) => {
+      // Skip if no valid response
       if (!response || !Array.isArray(response) || response.length === 0) {
-        console.warn(`Skipping question ${index+1} - no valid response`);
+        logDebug(`Skipping question ${index+1} - no valid response`, 'warn');
         return;
       }
 
+      // Get the question data
       const question = quizData[index];
       if (!question) {
-        console.warn(`Skipping question ${index+1} - no question data found`);
+        logDebug(`Skipping question ${index+1} - no question data found`, 'warn');
         return;
       }
 
-      console.log(`Processing question ${index+1}: "${question.question}"`);
+      logDebug(`Processing question ${index+1}: "${question.question}"`);
       
+      // Process each selected option
       response.forEach(optionIndex => {
+        // Validate option index
         if (optionIndex < 0 || optionIndex >= question.options.length) {
-          console.warn(`Invalid option index ${optionIndex} for question ${index+1}`);
+          logDebug(`Invalid option index ${optionIndex} for question ${index+1}`, 'warn');
           return;
         }
         
+        // Get the selected option
         const option = question.options[optionIndex];
         if (!option) {
-          console.warn(`No option found at index ${optionIndex} for question ${index+1}`);
+          logDebug(`No option found at index ${optionIndex} for question ${index+1}`, 'warn');
           return;
         }
         
+        // Check if option has scores
         if (!option.scores) {
-          console.warn(`No scoring data for option ${optionIndex} of question ${index+1}`);
+          logDebug(`No scoring data for option ${optionIndex} of question ${index+1}`, 'warn');
           return;
         }
         
-        console.log(`  Selected: "${option.text}"`);
-        console.log(`  Scores:`, option.scores);
+        logDebug(`  Selected: "${option.text}"`);
         
+        // Add scores to the appropriate categories
         Object.entries(option.scores).forEach(([key, value]) => {
           // Check which category this key belongs to and add score
           if (key in archetypeDescriptions) {
             scores.archetypes[key] = (scores.archetypes[key] || 0) + value;
-            console.log(`    Added ${value} points to archetype "${key}" (total: ${scores.archetypes[key]})`);
+            logDebug(`    Added ${value} points to archetype "${key}" (total: ${scores.archetypes[key]})`);
           } else if (key in superpowerDescriptions) {
             scores.superpowers[key] = (scores.superpowers[key] || 0) + value;
-            console.log(`    Added ${value} points to superpower "${key}" (total: ${scores.superpowers[key]})`);
+            logDebug(`    Added ${value} points to superpower "${key}" (total: ${scores.superpowers[key]})`);
           } else if (key in productCultureDescriptions) {
             scores.productCultures[key] = (scores.productCultures[key] || 0) + value;
-            console.log(`    Added ${value} points to product culture "${key}" (total: ${scores.productCultures[key]})`);
+            logDebug(`    Added ${value} points to product culture "${key}" (total: ${scores.productCultures[key]})`);
           } else if (key in pmCultureDescriptions) {
             scores.pmCultures[key] = (scores.pmCultures[key] || 0) + value;
-            console.log(`    Added ${value} points to PM culture "${key}" (total: ${scores.pmCultures[key]})`);
+            logDebug(`    Added ${value} points to PM culture "${key}" (total: ${scores.pmCultures[key]})`);
           } else {
-            console.warn(`    Unknown category for key "${key}"`);
+            logDebug(`    Unknown category for key "${key}"`, 'warn');
           }
         });
       });
     });
 
-    // Check final scores and ensure we have some values
-    console.log('Final calculated scores:', scores);
-    
-    // Check if any category is empty and warn about it
+    // Ensure we have at least some values in each category
     if (Object.keys(scores.archetypes).length === 0) {
-      console.error('No archetype scores were calculated!');
+      logDebug('No archetype scores were calculated - using defaults', 'warn');
+      scores.archetypes = getDefaultScores().archetypes;
     }
     
     if (Object.keys(scores.superpowers).length === 0) {
-      console.error('No superpower scores were calculated!');
+      logDebug('No superpower scores were calculated - using defaults', 'warn');
+      scores.superpowers = getDefaultScores().superpowers;
     }
     
     if (Object.keys(scores.productCultures).length === 0) {
-      console.error('No product culture scores were calculated!');
+      logDebug('No product culture scores were calculated - using defaults', 'warn');
+      scores.productCultures = getDefaultScores().productCultures;
     }
     
     if (Object.keys(scores.pmCultures).length === 0) {
-      console.error('No PM culture scores were calculated!');
+      logDebug('No PM culture scores were calculated - using defaults', 'warn');
+      scores.pmCultures = getDefaultScores().pmCultures;
     }
     
-    console.log('------- SCORE CALCULATION END -------');
+    logDebug('Final calculated scores:', scores);
+    logDebug('------- SCORE CALCULATION END -------');
     
-    // Return scores as calculated, even if empty - we'll handle this in getTopTwo
+    // Return final scores
     return scores;
   }
   
-  // Helper function to get default scores if needed
+  // Get default scores if calculation fails
   function getDefaultScores() {
-    console.warn('Using default scores due to invalid responses');
+    logDebug('Using default scores due to invalid responses', 'warn');
     return {
       archetypes: {
         "Growth Driver": 10,
@@ -867,95 +1274,385 @@ function initQuiz() {
     };
   }
 
-    console.log('Calculated scores:', scores);
-    return scores;
-  }
-
+  // Get the top two items from a scored object
   function getTopTwo(obj) {
-    console.log('Getting top two from:', JSON.stringify(obj));
+    logDebug('Getting top two from:', JSON.stringify(obj));
     
-    // Improved error handling with detailed logging
+    // Handle invalid input
     if (!obj || typeof obj !== 'object') {
-      console.error('getTopTwo received invalid input (not an object):', obj);
+      logDebug('Invalid input (not an object)', 'error');
       return getDefaultArchetypes();
     }
     
     if (Object.keys(obj).length === 0) {
-      console.error('getTopTwo received an empty object - this likely means no scores were calculated');
+      logDebug('Empty object - no scores were calculated', 'error');
       return getDefaultArchetypes();
     }
     
-    // Sort in descending order by score
+    // Sort by score in descending order
     const sorted = Object.entries(obj).sort((a, b) => b[1] - a[1]);
-    console.log('Sorted results:', sorted);
+    logDebug('Sorted results:', sorted);
     
+    // Return the top two items (or default values if not available)
     return [
       sorted[0] ? sorted[0][0] : getDefaultArchetypes()[0], 
       sorted.length > 1 ? sorted[1][0] : getDefaultArchetypes()[1]
     ];
   }
   
+  // Default archetypes if none are calculated
   function getDefaultArchetypes() {
-    console.warn('Using default archetypes');
+    logDebug('Using default archetypes', 'warn');
     return ['Growth Driver', 'Product Optimizer'];
   }
 
+  // Get the highest scoring item from a scored object
   function getHighestScore(obj) {
-    console.log('Getting highest score from:', JSON.stringify(obj));
+    logDebug('Getting highest score from:', JSON.stringify(obj));
     
-    // Improved error handling
+    // Handle invalid input
     if (!obj || typeof obj !== 'object') {
-      console.error('getHighestScore received invalid input (not an object):', obj);
+      logDebug('Invalid input (not an object)', 'error');
       return getDefaultForCategory(obj);
     }
     
     if (Object.keys(obj).length === 0) {
-      console.error('getHighestScore received an empty object');
+      logDebug('Empty object', 'error');
       return getDefaultForCategory(obj);
     }
     
-    // Sort in descending order by score
+    // Sort by score in descending order
     const sorted = Object.entries(obj).sort((a, b) => b[1] - a[1]);
-    console.log('Sorted results for highest score:', sorted);
+    logDebug('Sorted results for highest score:', sorted);
     
+    // Return the highest scoring item (or default if not available)
     return sorted[0] ? sorted[0][0] : getDefaultForCategory(obj);
   }
   
-  function getDefaultForCategory(obj) {
-    // Determine which category we're dealing with based on the object's context
-    if (obj === scores.productCultures) {
-      return 'Data-Driven';
-    } else if (obj === scores.pmCultures) {
-      return 'PM-Guided';
-    }
+  // Get default category value
+  function getDefaultForCategory(category) {
+    // Return appropriate default based on category
+    if (category === 'productCultures') return 'Data-Driven';
+    if (category === 'pmCultures') return 'PM-Guided';
     return 'Not determined';
   }
 
-  function createCustomVisualization(scores) {
+  // ==========================================
+  // RESULTS DISPLAY
+  // ==========================================
+
+  // Display quiz results
+  function showResults() {
     try {
-      const container = document.getElementById('data-visualization');
-      if (!container) {
-        console.error('Data visualization container not found');
+      logDebug('------- SHOW RESULTS START -------');
+      
+      if (!verifyRequiredElements()) {
+        if (resultsContainer) {
+          resultsContainer.innerHTML = '<p>An error occurred while displaying your results. Please refresh the page and try again.</p>';
+          resultsContainer.style.display = 'block';
+        }
         return;
       }
-      
-      container.innerHTML = '';
-      
-      if (!scores || !scores.archetypes || Object.keys(scores.archetypes).length === 0) {
-        container.innerHTML = '<p>No visualization data available</p>';
+
+      // Hide quiz, show results
+      quizContainer.style.display = 'none';
+      questionTitle.style.display = 'none';
+      resultsContainer.style.display = 'block';
+      if (nextButton) nextButton.style.display = 'none';
+      if (backArrow) backArrow.style.display = 'block';
+
+      // Calculate scores
+      let scores;
+      try {
+        scores = calculateScores();
+      } catch (err) {
+        logDebug(`Error calculating scores: ${err.message}`, 'error');
+        resultsContainer.innerHTML = '<p>An error occurred while calculating your results. Please try again.</p>';
         return;
       }
+
+      // Get the top archetypes, superpowers, and cultures
+      const [primaryArchetype, secondaryArchetype] = getTopTwo(scores.archetypes);
+      const [primarySuperpower, secondarySuperpower] = getTopTwo(scores.superpowers);
+      const productCulture = getHighestScore(scores.productCultures);
+      const pmCulture = getHighestScore(scores.pmCultures);
+
+      // Safety checks for required values
+      if (!primaryArchetype || !primarySuperpower || !productCulture || !pmCulture) {
+        logDebug('Missing required result values', 'error');
+        resultsContainer.innerHTML = '<p>An error occurred while analyzing your results. Please try again.</p>';
+        return;
+      }
+
+      // Safety checks for descriptions
+      if (!archetypeDescriptions[primaryArchetype]) {
+        logDebug(`Missing description for ${primaryArchetype}`, 'error');
+        resultsContainer.innerHTML = '<p>An error occurred with the archetype descriptions. Please try again.</p>';
+        return;
+      }
+
+      // Build the results HTML
+      let summaryHTML = buildResultsSummary(
+        primaryArchetype, 
+        secondaryArchetype, 
+        primarySuperpower, 
+        secondarySuperpower, 
+        productCulture, 
+        pmCulture
+      );
+
+      // Set the HTML
+      profileSummary.innerHTML = summaryHTML;
+
+      // Create the visualization
+      try {
+        createVisualization(scores);
+      } catch (err) {
+        logDebug(`Error creating visualization: ${err.message}`, 'error');
+        const vizContainer = document.getElementById('data-visualization');
+        if (vizContainer) {
+          vizContainer.innerHTML = '<p>Unable to generate the visualization.</p>';
+        }
+      }
+
+// Submit the data
+      try {
+        submitQuizData({
+          primaryArchetype,
+          secondaryArchetype,
+          primarySuperpower,
+          secondarySuperpower,
+          productCulture,
+          pmCulture,
+          responses: userResponses
+        });
+      } catch (err) {
+        logDebug(`Error submitting data: ${err.message}`, 'warn');
+        // Non-critical error, continue showing results
+      }
+
+      // Add event listeners for sharing
+      setupSharingButtons(primaryArchetype);
+      
+      // Add event listener for retaking the quiz
+      const retakeButton = document.getElementById('retake-quiz');
+      if (retakeButton) {
+        retakeButton.addEventListener('click', resetQuiz);
+      }
+
+      logDebug('------- SHOW RESULTS END -------');
+      loadingResults = false;
+
+    } catch (error) {
+      logDebug(`Error in showResults: ${error.message}`, 'error');
+      if (resultsContainer) {
+        resultsContainer.innerHTML = '<p>An error occurred while calculating your results. Please try again.</p>';
+        resultsContainer.style.display = 'block';
+      }
+      loadingResults = false;
+    }
+  }
+
+  // Build the HTML for the results summary
+  function buildResultsSummary(primaryArchetype, secondaryArchetype, primarySuperpower, secondarySuperpower, productCulture, pmCulture) {
+    // Safety checks
+    const safeProductCulture = productCulture || 'diverse';
+    const safePmCulture = pmCulture || 'collaborative';
+    
+    // Start with the overview section
+    let html = `
+      <div class="result-section">
+        <h3>Your Product Leadership Profile</h3>
+        <p>Your results indicate that you are primarily a ${icons[primaryArchetype] || ''} <strong>${primaryArchetype}-style</strong> product leader`;
+    
+    if (secondaryArchetype) {
+      html += ` with elements of a ${icons[secondaryArchetype] || ''} <strong>${secondaryArchetype}</strong>`;
+    }
+    
+    html += `. This combination suggests that you excel in ${getProsString(primaryArchetype)}`;
+    
+    if (archetypeDescriptions[primaryArchetype] && archetypeDescriptions[primaryArchetype].pros && archetypeDescriptions[primaryArchetype].pros.length > 1) {
+      html += ` and ${safeToLowerCase(archetypeDescriptions[primaryArchetype].pros[1])}`;
+    }
+    
+    if (secondaryArchetype && archetypeDescriptions[secondaryArchetype]) {
+      html += `, while also demonstrating strengths in ${getProsString(secondaryArchetype)}`;
+      
+      if (archetypeDescriptions[secondaryArchetype].pros && archetypeDescriptions[secondaryArchetype].pros.length > 1) {
+        html += ` and ${safeToLowerCase(archetypeDescriptions[secondaryArchetype].pros[1])}`;
+      }
+    }
+    
+    html += `. Your key superpower lies in ${icons[primarySuperpower] || ''} <strong>${primarySuperpower}</strong>`;
+    
+    if (superpowerDescriptions[primarySuperpower]) {
+      html += `, which means you ${superpowerDescriptions[primarySuperpower]}`;
+    }
+    
+    html += ` You have thrived in <strong>${safeProductCulture}</strong> organizations with a <strong>${safePmCulture}</strong> approach to product management.</p>
+      </div>`;
+    
+    // Add primary archetype section
+    html += `
+      <div class="result-section">
+        <div class="archetype-header">
+          <h4>Primary Archetype: ${primaryArchetype}</h4>
+          ${icons[primaryArchetype] || ''}
+        </div>`;
+    
+    if (archetypeDescriptions[primaryArchetype]) {
+      html += `<p>${archetypeDescriptions[primaryArchetype].description || 'No description available.'}</p>
+        <div class="pros-cons">
+          <div class="pros">
+            <b>Strengths:</b>
+            <ul>
+              ${(archetypeDescriptions[primaryArchetype].pros || []).map(pro => `<li>${pro}</li>`).join('') || '<li>No strengths specified</li>'}
+            </ul>
+          </div>
+          <div class="cons">
+            <b>Potential Challenges:</b>
+            <ul>
+              ${(archetypeDescriptions[primaryArchetype].cons || []).map(con => `<li>${con}</li>`).join('') || '<li>No challenges specified</li>'}
+            </ul>
+          </div>
+        </div>
+        <p><strong>Notable Examples:</strong> ${(archetypeDescriptions[primaryArchetype].examples || []).join(', ') || 'No examples available'}</p>`;
+    } else {
+      html += `<p>Detailed information for ${primaryArchetype} is not available.</p>`;
+    }
+    
+    html += `</div>
+      <div id="data-visualization"></div>`;
+
+    // Add secondary archetype if available
+    if (secondaryArchetype && archetypeDescriptions[secondaryArchetype]) {
+      html += `
+        <div class="result-section">
+          <div class="archetype-header">
+            <h4>Secondary Archetype: ${secondaryArchetype}</h4>
+            ${icons[secondaryArchetype] || ''}
+          </div>
+          <p>${archetypeDescriptions[secondaryArchetype].description || 'No description available.'}</p>
+          <div class="pros-cons">
+            <div class="pros">
+              <b>Strengths:</b>
+              <ul>
+                ${(archetypeDescriptions[secondaryArchetype].pros || []).map(pro => `<li>${pro}</li>`).join('') || '<li>No strengths specified</li>'}
+              </ul>
+            </div>
+            <div class="cons">
+              <b>Potential Challenges:</b>
+              <ul>
+                ${(archetypeDescriptions[secondaryArchetype].cons || []).map(con => `<li>${con}</li>`).join('') || '<li>No challenges specified</li>'}
+              </ul>
+            </div>
+          </div>
+          <p><strong>Notable Examples:</strong> ${(archetypeDescriptions[secondaryArchetype].examples || []).join(', ') || 'No examples available'}</p>
+        </div>
+      `;
+    }
+
+    // Add superpower section
+    if (primarySuperpower) {
+      html += `
+        <div class="result-section">
+          <h4>Superpowers</h4>
+          <div class="superpower-header">
+            <h5>Primary Superpower: ${primarySuperpower}</h5>
+            ${icons[primarySuperpower] || ''}
+          </div>
+          <p>${superpowerDescriptions[primarySuperpower] || 'No description available.'}</p>`;
+      
+      if (secondarySuperpower && superpowerDescriptions[secondarySuperpower]) {
+        html += `
+          <div class="superpower-header">
+            <h5>Secondary Superpower: ${secondarySuperpower}</h5>
+            ${icons[secondarySuperpower] || ''}
+          </div>
+          <p>${superpowerDescriptions[secondarySuperpower] || 'No description available.'}</p>`;
+      }
+      
+      html += `</div>`;
+    }
+
+    // Add environment section
+    html += `
+      <div class="result-section environment-section">
+        <h4>Preferred Environment</h4>
+        <p><strong>Product Culture (${safeProductCulture}):</strong> ${productCultureDescriptions[safeProductCulture] || 'No description available.'}</p>
+        <h4>Product Decision-Making</h4>
+        <p><strong>${safePmCulture}:</strong> ${pmCultureDescriptions[safePmCulture] || 'No description available.'}</p>
+      </div>`;
+
+    // Add career opportunities section
+    html += `
+      <div class="result-section">
+        <h4>Career Opportunities</h4>
+        <p>Given your ${primaryArchetype || 'unique'} archetype and ${primarySuperpower || 'special'} superpower, you might excel in roles such as Senior Product Manager, Director of Product, or VP of Product in companies that value ${safeToLowerCase(safeProductCulture)} and ${safeToLowerCase(safePmCulture)} approaches. These roles would allow you to leverage your ${getProsString(primaryArchetype)} and ability to ${superpowerDescriptions[primarySuperpower] ? superpowerDescriptions[primarySuperpower].toLowerCase() : 'apply your unique skills'}</p>
+        <p>Some companies that might be a good fit include:</p>
+        <ul>
+          ${(companyRecommendations[primaryArchetype] || ['Companies that value your skills']).map(company => `<li>${company}</li>`).join('')}
+        </ul>
+        <p>Remember, these are just suggestions. Your unique combination of skills and experiences might make you a great fit for a wide range of roles and companies.</p>
+      </div>`;
+    
+    // Add how to present yourself section
+    html += `
+      <div class="result-section">
+        <h4>How to Present Yourself</h4>
+        <p>When introducing yourself or writing your resume, emphasize your unique combination of ${primaryArchetype} strategies and ${primarySuperpower} skills. For example:</p>
+        <ul>
+          <li>${archetypeStrengths[primaryArchetype] || 'Use your product leadership experience to highlight your expertise'}</li>
+          <li>${archetypeAchievements[primaryArchetype] || 'Showcase specific achievements that demonstrate your impact'}</li>
+          <li>${superpowerActions[primarySuperpower] || 'Leverage your special abilities in your next role'}</li>
+        </ul>
+      </div>
+      
+      <div class="action-buttons">
+        <button id="retake-quiz" class="gradient-button">Retake Quiz</button>
+        <div class="share-buttons">
+          <button class="share-button" data-platform="twitter">Share on Twitter</button>
+          <button class="share-button" data-platform="linkedin">Share on LinkedIn</button>
+        </div>
+      </div>
+      
+      <div class="results-button-container">
+        <h4>Apply to the Product Executive Job Search program:</h4>
+        <a href="https://maven.com/colinl/productleaderjobsearch" target="_blank" class="gradient-button course-survey-button">
+          APPLY HERE
+        </a>
+      </div>
+    `;
+    
+    return html;
+  }
+
+  // Create data visualization for archetypes
+  function createVisualization(scores) {
+    const container = document.getElementById('data-visualization');
+    if (!container) {
+      logDebug('Data visualization container not found', 'error');
+      return;
+    }
+    
+    container.innerHTML = '';
+    
+    if (!scores || !scores.archetypes || Object.keys(scores.archetypes).length === 0) {
+      container.innerHTML = '<p>No data available for visualization</p>';
+      return;
+    }
     
     const svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
     svg.setAttribute("viewBox", "0 0 600 400");
     svg.setAttribute("width", "100%");
     svg.setAttribute("height", "400");
+    svg.setAttribute("aria-label", "Product Leadership Archetype Profile Visualization");
+    svg.setAttribute("role", "img");
     
     const sortedArchetypes = Object.entries(scores.archetypes)
       .sort((a, b) => b[1] - a[1])
       .map(entry => entry[0]);
 
-    // FIX 14: Handle empty or invalid scores
     if (sortedArchetypes.length === 0) {
       container.innerHTML = '<p>Insufficient data for visualization</p>';
       return;
@@ -963,7 +1660,8 @@ function initQuiz() {
 
     const maxScore = Math.max(...Object.values(scores.archetypes)) || 1; // Avoid division by zero
     const colors = [
-      '#4e79a7', '#f28e2c', '#e15759', '#76b7b2', '#59a14f', '#edc949', '#af7aa1', '#ff9da7', '#9c755f'
+      '#4e79a7', '#f28e2c', '#e15759', '#76b7b2', '#59a14f', 
+      '#edc949', '#af7aa1', '#ff9da7', '#9c755f', '#bab0ab'
     ];
     
     const padding = 40;
@@ -971,22 +1669,50 @@ function initQuiz() {
     const lineLength = 80;
     const textOffset = 10;
 
+    // Add background
     const background = document.createElementNS("http://www.w3.org/2000/svg", "rect");
     background.setAttribute("width", "100%");
     background.setAttribute("height", "100%");
     background.setAttribute("fill", "#f8f9fa");
+    background.setAttribute("rx", "8"); // Rounded corners
     svg.appendChild(background);
 
+    // Add title
     const title = document.createElementNS("http://www.w3.org/2000/svg", "text");
     title.setAttribute("x", 300);
     title.setAttribute("y", 30);
     title.setAttribute("text-anchor", "middle");
-    title.setAttribute("font-size", "20");
+    title.setAttribute("font-size", "18");
     title.setAttribute("font-weight", "bold");
     title.setAttribute("fill", "#333");
-    title.textContent = "Product Leadership Archetype Profile";
+    title.textContent = "Your Product Leadership Profile";
     svg.appendChild(title);
 
+    // Draw center lines for reference
+    const centerGroup = document.createElementNS("http://www.w3.org/2000/svg", "g");
+    centerGroup.setAttribute("opacity", "0.2");
+    
+    const centerCircle = document.createElementNS("http://www.w3.org/2000/svg", "circle");
+    centerCircle.setAttribute("cx", 300);
+    centerCircle.setAttribute("cy", 220);
+    centerCircle.setAttribute("r", 80);
+    centerCircle.setAttribute("fill", "none");
+    centerCircle.setAttribute("stroke", "#999");
+    centerCircle.setAttribute("stroke-dasharray", "2,2");
+    centerGroup.appendChild(centerCircle);
+    
+    const smallerCircle = document.createElementNS("http://www.w3.org/2000/svg", "circle");
+    smallerCircle.setAttribute("cx", 300);
+    smallerCircle.setAttribute("cy", 220);
+    smallerCircle.setAttribute("r", 40);
+    smallerCircle.setAttribute("fill", "none");
+    smallerCircle.setAttribute("stroke", "#999");
+    smallerCircle.setAttribute("stroke-dasharray", "2,2");
+    centerGroup.appendChild(smallerCircle);
+    
+    svg.appendChild(centerGroup);
+
+    // Draw archetype spokes and circles
     sortedArchetypes.forEach((archetype, index) => {
       const score = scores.archetypes[archetype] || 0;
       const normalizedScore = score / maxScore;
@@ -995,6 +1721,7 @@ function initQuiz() {
       const centerX = 300 + Math.cos(angle) * lineLength;
       const centerY = 220 + Math.sin(angle) * lineLength;
       
+      // Draw line from center
       const line = document.createElementNS("http://www.w3.org/2000/svg", "line");
       line.setAttribute("x1", 300);
       line.setAttribute("y1", 220);
@@ -1004,14 +1731,26 @@ function initQuiz() {
       line.setAttribute("stroke-width", 2);
       svg.appendChild(line);
       
+      // Draw circle for the score
       const circle = document.createElementNS("http://www.w3.org/2000/svg", "circle");
       circle.setAttribute("cx", centerX);
       circle.setAttribute("cy", centerY);
       circle.setAttribute("r", Math.max(circleRadius * normalizedScore, 5)); // Minimum radius of 5
       circle.setAttribute("fill", colors[index % colors.length]);
-      circle.setAttribute("opacity", 0.7);
+      circle.setAttribute("opacity", 0.8);
+      
+      // Add animation for circles
+      const animate = document.createElementNS("http://www.w3.org/2000/svg", "animate");
+      animate.setAttribute("attributeName", "r");
+      animate.setAttribute("from", "0");
+      animate.setAttribute("to", Math.max(circleRadius * normalizedScore, 5));
+      animate.setAttribute("dur", "0.8s");
+      animate.setAttribute("fill", "freeze");
+      circle.appendChild(animate);
+      
       svg.appendChild(circle);
       
+      // Add score text
       const scoreText = document.createElementNS("http://www.w3.org/2000/svg", "text");
       scoreText.setAttribute("x", centerX);
       scoreText.setAttribute("y", centerY);
@@ -1023,6 +1762,7 @@ function initQuiz() {
       scoreText.textContent = Math.round(score);
       svg.appendChild(scoreText);
       
+      // Add archetype label
       const text = document.createElementNS("http://www.w3.org/2000/svg", "text");
       text.setAttribute("x", centerX + (Math.cos(angle) * (circleRadius + textOffset)));
       text.setAttribute("y", centerY + (Math.sin(angle) * (circleRadius + textOffset)));
@@ -1034,6 +1774,7 @@ function initQuiz() {
       svg.appendChild(text);
     });
 
+    // Add watermark
     const watermark = document.createElementNS("http://www.w3.org/2000/svg", "text");
     watermark.setAttribute("x", 585);
     watermark.setAttribute("y", 390);
@@ -1044,49 +1785,121 @@ function initQuiz() {
     svg.appendChild(watermark);
 
     container.appendChild(svg);
-    } catch (error) {
-      console.error('Error creating visualization:', error);
-      const container = document.getElementById('data-visualization');
-      if (container) {
-        container.innerHTML = '<p>Unable to generate the visualization. Please try again later.</p>';
-      }
-    }
   }
 
-  function shareResults(platform) {
-    // FIX 15: Add error handling for sharing
-    try {
-      let scores;
+  // Submit quiz data to external service
+  function submitQuizData(data) {
+    logDebug('Submitting quiz data');
+    
+    if (!data || !data.responses) {
+      logDebug('Invalid quiz data for submission', 'error');
+      return;
+    }
+
+    // Format the responses for logging and submission
+    const formattedResponses = data.responses.map((response, index) => {
+      if (!response || !quizData[index]) return `Q${index + 1}: No answer`;
+      
+      const question = quizData[index];
+      const selectedOptions = response.map(optionIndex => {
+        if (question.options[optionIndex]) {
+          return question.options[optionIndex].text;
+        }
+        return "Unknown option";
+      });
+      
+      return `Q${index + 1}: ${selectedOptions.join(', ')}`;
+    }).join(' | ');
+
+    // Prepare data for submission
+    const formattedData = {
+      primaryArchetype: data.primaryArchetype || 'Unknown',
+      secondaryArchetype: data.secondaryArchetype || 'None',
+      primarySuperpower: data.primarySuperpower || 'Unknown',
+      secondarySuperpower: data.secondarySuperpower || 'None',
+      productCulture: data.productCulture || 'Unknown',
+      pmCulture: data.pmCulture || 'Unknown',
+      responses: formattedResponses,
+      timestamp: new Date().toISOString()
+    };
+
+    logDebug('Formatted data for submission:', formattedData);
+
+    // Submit to Zapier webhook
+    fetch('https://hooks.zapier.com/hooks/catch/1229764/24rotzb/', {
+      method: 'POST',
+      body: JSON.stringify(formattedData),
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    })
+    .then(response => {
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+      return response.text();
+    })
+    .then(text => {
       try {
-        scores = calculateScores();
-      } catch (err) {
-        console.error('Error calculating scores for sharing:', err);
-        return;
+        return JSON.parse(text);
+      } catch (e) {
+        logDebug('Response is not JSON:', text);
+        return text;
       }
-
-      if (!scores || !scores.archetypes || Object.keys(scores.archetypes).length === 0) {
-        console.error('Invalid scores for sharing');
-        return;
+    })
+    .then(data => logDebug('Submission successful:', data))
+    .catch((error) => {
+      logDebug(`Error submitting quiz data: ${error.message}`, 'error');
+      // Add non-blocking error message for users
+      const errorContainer = document.createElement('div');
+      errorContainer.className = 'submission-error';
+      errorContainer.innerHTML = `<p>Note: There was an error submitting your results. Your results are still displayed above.</p>`;
+      if (resultsContainer) {
+        resultsContainer.appendChild(errorContainer);
       }
+    });
+  }
 
-      const [primaryArchetype] = getTopTwo(scores.archetypes);
+  // Set up sharing buttons
+  function setupSharingButtons(primaryArchetype) {
+    document.querySelectorAll('.share-button').forEach(button => {
+      button.addEventListener('click', function() {
+        try {
+          const platform = this.getAttribute('data-platform');
+          if (platform) {
+            shareResults(platform, primaryArchetype);
+          }
+        } catch (err) {
+          logDebug(`Error in share button handler: ${err.message}`, 'error');
+        }
+      });
+    });
+  }
+
+  // Share results on social media
+  function shareResults(platform, primaryArchetype) {
+    try {
       if (!primaryArchetype) {
-        console.error('Could not determine primary archetype for sharing');
+        logDebug('Cannot share results - primary archetype is undefined', 'error');
         return;
       }
 
+      // Create sharing text
       let text = `I just discovered my Product Leadership Archetype: I'm a ${primaryArchetype}.`;
       
       if (archetypeDescriptions[primaryArchetype] && archetypeDescriptions[primaryArchetype].description) {
         const firstSentence = archetypeDescriptions[primaryArchetype].description.split('.')[0];
         if (firstSentence) {
-          text += ` ${firstSentence}`;
+          text += ` ${firstSentence}.`;
         }
       }
+      
+      text += ' Take the quiz yourself!';
       
       const url = encodeURIComponent(window.location.href);
       let shareUrl;
 
+      // Generate appropriate sharing URL
       switch (platform) {
         case 'twitter':
           shareUrl = `https://twitter.com/intent/tweet?text=${encodeURIComponent(text)}&url=${url}`;
@@ -1098,86 +1911,273 @@ function initQuiz() {
           shareUrl = `https://www.facebook.com/dialog/share?app_id=YOUR_FACEBOOK_APP_ID&href=${url}&quote=${encodeURIComponent(text)}`;
           break;
         default:
-          console.error('Unknown sharing platform:', platform);
+          logDebug(`Unknown sharing platform: ${platform}`, 'error');
           return;
       }
 
+      // Open sharing dialog
       window.open(shareUrl, '_blank', 'noopener,noreferrer');
+      
+      logDebug(`Shared results on ${platform}`);
     } catch (err) {
-      console.error('Error sharing results:', err);
+      logDebug(`Error sharing results: ${err.message}`, 'error');
     }
   }
 
-  // Start the quiz
-  try {
+  // Reset the quiz to start over
+  function resetQuiz() {
+    currentQuestionIndex = 0;
+    userResponses = [];
     showQuestion(currentQuestionIndex);
-  } catch (err) {
-    console.error('Error starting quiz:', err);
   }
 
-  // Event listeners
-  if (backArrow) {
-    backArrow.addEventListener('click', () => {
-      try {
-        if (resultsContainer && resultsContainer.style.display === 'block') {
-          resultsContainer.style.display = 'none';
-          quizContainer.style.display = 'block';
-          questionTitle.style.display = 'block';
-          if (nextButton) nextButton.style.display = 'none';
-          currentQuestionIndex = quizData.length - 1;
-          showQuestion(currentQuestionIndex);
-        } else if (currentQuestionIndex > 0) {
-          currentQuestionIndex--;
-          showQuestion(currentQuestionIndex);
+  // ==========================================
+  // INITIALIZATION & EVENT LISTENERS
+  // ==========================================
+
+  // Start the quiz
+  function startQuiz() {
+    if (!verifyRequiredElements()) {
+      logDebug('Cannot start quiz - missing required elements', 'error');
+      return;
+    }
+    
+    // Reset state
+    currentQuestionIndex = 0;
+    userResponses = [];
+    
+    // Display first question
+    showQuestion(currentQuestionIndex);
+    
+    // Set up event listeners
+    if (backArrow) {
+      backArrow.addEventListener('click', handleBackArrowClick);
+    }
+    
+    logDebug('Quiz started successfully');
+  }
+  
+  // Handle back arrow click
+  function handleBackArrowClick() {
+    try {
+      if (loadingResults) {
+        logDebug('Ignoring back button - results are loading');
+        return;
+      }
+      
+      if (resultsContainer && resultsContainer.style.display === 'block') {
+        // Back from results to last question
+        resultsContainer.style.display = 'none';
+        quizContainer.style.display = 'block';
+        questionTitle.style.display = 'block';
+        if (nextButton) nextButton.style.display = 'none';
+        currentQuestionIndex = quizData.length - 1;
+        showQuestion(currentQuestionIndex);
+      } else if (currentQuestionIndex > 0) {
+        // Back to previous question
+        currentQuestionIndex--;
+        showQuestion(currentQuestionIndex);
+      }
+    } catch (err) {
+      logDebug(`Error in back arrow handler: ${err.message}`, 'error');
+    }
+  }
+  
+  // Add keyboard navigation
+  function setupKeyboardNavigation() {
+    document.addEventListener('keydown', function(e) {
+      // Ignore if quiz is not active or an input is focused
+      if (!quizContainer || quizContainer.style.display === 'none' || 
+          document.activeElement.tagName === 'INPUT' || 
+          document.activeElement.tagName === 'TEXTAREA') {
+        return;
+      }
+      
+      // Left arrow = previous question
+      if (e.key === 'ArrowLeft' && currentQuestionIndex > 0) {
+        goToPreviousQuestion();
+      }
+      
+      // Right arrow or Enter = next question (if next button is enabled)
+      if ((e.key === 'ArrowRight' || e.key === 'Enter') && 
+          nextButton && nextButton.style.display !== 'none' && !nextButton.disabled) {
+        goToNextQuestion();
+      }
+      
+      // Number keys 1-9 = select option (for single choice questions)
+      if (/^[1-9]$/.test(e.key)) {
+        const optionIndex = parseInt(e.key) - 1;
+        const options = document.querySelectorAll('.option');
+        
+        if (optionIndex < options.length && quizData[currentQuestionIndex].type === 'single') {
+          selectOption(optionIndex, 'single');
         }
-      } catch (err) {
-        console.error('Error in back arrow handler:', err);
       }
     });
   }
 
-  // Set up share buttons
-  document.querySelectorAll('.share-button').forEach(button => {
-    button.addEventListener('click', function() {
-      try {
-        const platform = this.getAttribute('data-platform');
-        if (platform) {
-          shareResults(platform);
+  // Add CSS for additional styling
+  function addCustomStyles() {
+    const styleEl = document.createElement('style');
+    styleEl.textContent = `
+      /* Enhanced styling for the quiz */
+      .pulse-animation {
+        animation: pulse 0.3s ease-in-out;
+      }
+      
+      .shake-animation {
+        animation: shake 0.5s ease-in-out;
+      }
+      
+      @keyframes pulse {
+        0% { transform: scale(1); }
+        50% { transform: scale(1.05); }
+        100% { transform: scale(1); }
+      }
+      
+      @keyframes shake {
+        0%, 100% { transform: translateX(0); }
+        20%, 60% { transform: translateX(-5px); }
+        40%, 80% { transform: translateX(5px); }
+      }
+      
+      .selection-instruction {
+        color: #666;
+        font-size: 0.9em;
+        font-weight: normal;
+      }
+      
+      .loading {
+        text-align: center;
+        padding: 30px;
+      }
+      
+      .loading-spinner {
+        border: 4px solid #f3f3f3;
+        border-top: 4px solid var(--primary-color);
+        border-radius: 50%;
+        width: 40px;
+        height: 40px;
+        animation: spin 1s linear infinite;
+        margin: 20px auto;
+      }
+      
+      @keyframes spin {
+        0% { transform: rotate(0deg); }
+        100% { transform: rotate(360deg); }
+      }
+      
+      .action-buttons {
+        display: flex;
+        justify-content: space-between;
+        margin: 20px 0;
+        flex-wrap: wrap;
+      }
+      
+      .share-buttons {
+        display: flex;
+        gap: 10px;
+      }
+      
+      .share-button {
+        padding: 8px 16px;
+        border-radius: 20px;
+        border: none;
+        color: white;
+        font-weight: 600;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        font-family: var(--font-family);
+      }
+      
+      .share-button[data-platform="twitter"] {
+        background-color: #1DA1F2;
+      }
+      
+      .share-button[data-platform="linkedin"] {
+        background-color: #0077B5;
+      }
+      
+      .share-button[data-platform="facebook"] {
+        background-color: #4267B2;
+      }
+      
+      .submission-error {
+        color: #e74c3c;
+        font-size: 0.9em;
+        margin-top: 20px;
+        text-align: center;
+      }
+      
+      /* Improve option button accessibility */
+      .option:focus-visible {
+        outline: 3px solid var(--primary-color);
+        outline-offset: 2px;
+      }
+      
+      /* Responsive improvements */
+      @media (max-width: 600px) {
+        .action-buttons {
+          flex-direction: column;
+          gap: 10px;
         }
-      } catch (err) {
-        console.error('Error in share button handler:', err);
-      } 
-    });
-  });
-}
+        
+        #retake-quiz {
+          width: 100%;
+        }
+        
+        .share-buttons {
+          width: 100%;
+          justify-content: center;
+        }
+      }
+    `;
+    document.head.appendChild(styleEl);
+  }
 
-// FIX 16: Add more resilient initialization
-function safeInitQuiz() {
-  try {
-    initQuiz();
-  } catch (err) {
-    console.error('Error initializing quiz:', err);
-    // Display a user-friendly error message
-    const containers = document.querySelectorAll('.container');
-    if (containers.length > 0) {
-      containers[0].innerHTML = `
-        <h2>We're sorry!</h2>
-        <p>There was an error loading the quiz. Please refresh the page to try again.</p>
-        <button onclick="location.reload()" class="gradient-button">Refresh Page</button>
-      `;
+  // Initialize the quiz
+  function init() {
+    try {
+      logDebug('Initializing quiz...');
+      
+      // Add custom styles
+      addCustomStyles();
+      
+      // Set up keyboard navigation
+      setupKeyboardNavigation();
+      
+      // Start the quiz
+      startQuiz();
+      
+      logDebug('Quiz initialized successfully');
+    } catch (err) {
+      logDebug(`Error initializing quiz: ${err.message}`, 'error');
+      if (quizContainer) {
+        quizContainer.innerHTML = `
+          <div class="error-message">
+            <h3>Sorry, there was a problem loading the quiz</h3>
+            <p>Please refresh the page to try again. If the problem persists, please contact support.</p>
+            <button onclick="location.reload()" class="gradient-button">Refresh Page</button>
+          </div>
+        `;
+      }
     }
   }
+
+  // Run the initialization
+  init();
 }
 
 // Initialize the quiz when the DOM is ready
 if (document.readyState === 'loading') {
-  document.addEventListener('DOMContentLoaded', safeInitQuiz);
+  document.addEventListener('DOMContentLoaded', initQuiz);
 } else {
-  safeInitQuiz();
+  initQuiz();
 }
 
-// Add a global error handler
+// Add global error handler
 window.addEventListener('error', function(event) {
-  console.error('Global error caught:', event.error);
-  // We could add additional error reporting here
-});
+  console.error('Product Quiz - Global error caught:', event.error);
+});/**
