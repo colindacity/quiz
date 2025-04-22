@@ -1146,7 +1146,7 @@ function initQuiz() {
         }
       } catch (err) {
         console.error('Error in share button handler:', err);
-      }
+      } 
     });
   });
 }
