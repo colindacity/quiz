@@ -730,18 +730,19 @@ function initQuiz() {
   }
 
   function createCustomVisualization(scores) {
-    const container = document.getElementById('data-visualization');
-    if (!container) {
-      console.error('Data visualization container not found');
-      return;
-    }
-    
-    container.innerHTML = '';
-    
-    if (!scores || !scores.archetypes || Object.keys(scores.archetypes).length === 0) {
-      container.innerHTML = '<p>No visualization data available</p>';
-      return;
-    }
+    try {
+      const container = document.getElementById('data-visualization');
+      if (!container) {
+        console.error('Data visualization container not found');
+        return;
+      }
+      
+      container.innerHTML = '';
+      
+      if (!scores || !scores.archetypes || Object.keys(scores.archetypes).length === 0) {
+        container.innerHTML = '<p>No visualization data available</p>';
+        return;
+      }
     
     const svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
     svg.setAttribute("viewBox", "0 0 600 400");
@@ -841,6 +842,13 @@ function initQuiz() {
     svg.appendChild(watermark);
 
     container.appendChild(svg);
+    } catch (error) {
+      console.error('Error creating visualization:', error);
+      const container = document.getElementById('data-visualization');
+      if (container) {
+        container.innerHTML = '<p>Unable to generate the visualization. Please try again later.</p>';
+      }
+    }
   }
 
   function shareResults(platform) {
